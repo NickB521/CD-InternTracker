@@ -21,5 +21,40 @@ public class Intern {
     @NonNull
     private String phoneNumber;
 
-    private String InternNotes;
+    private String internNotes;
+
+    @NonNull
+    public String getName() {
+        return name;
+    }
+
+    public void setName(@NonNull String name) {
+        this.name = name;
+    }
+
+    @NonNull
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(@NonNull String email) {
+        this.email = email;
+    }
+
+    @NonNull
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(@NonNull String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getInternNotes() {
+        return internNotes;
+    }
+
+    public void setInternNotes(String internNotes) {
+        this.internNotes = internNotes;
+    }
 }
