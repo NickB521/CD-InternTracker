@@ -5,9 +5,7 @@ import com.codedifferently.CD_InternTracker.services.InternService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,7 +21,13 @@ public class InternController {
 
     @GetMapping
     public ResponseEntity<List<Intern>> getAll () {
-        List<Intern> Interns = internService.getAll();
-        return new ResponseEntity<>(Interns, HttpStatus.OK);
+        List<Intern> interns = internService.getAll();
+        return new ResponseEntity<>(interns, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Intern> create (@RequestBody Intern intern) {
+        intern = internService.create(intern);
+        return new ResponseEntity<>(intern, HttpStatus.CREATED);
     }
 }

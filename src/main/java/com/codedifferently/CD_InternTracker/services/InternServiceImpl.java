@@ -1,11 +1,13 @@
 package com.codedifferently.CD_InternTracker.services;
 
+import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.repos.InternRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InternServiceImpl implements InternService{
@@ -17,8 +19,14 @@ public class InternServiceImpl implements InternService{
         this.internRepository = internRepository;
     }
     @Override
-    public Intern create(Intern Intern) {
-        return null;
+    public Intern create(Intern intern) throws ResourceCreationException {
+
+        Optional<Intern> optional = internRepository.findByEmail(intern.getEmail());
+        if (optional.isPresent()) {
+            throw new ResourceCreationException("Intern with email: " + intern.getEmail() + " already exists.");
+        }
+        internRepository.save(intern);
+        return intern;
     }
 
     @Override
@@ -37,7 +45,7 @@ public class InternServiceImpl implements InternService{
     }
 
     @Override
-    public Intern update(Long id, Intern Intern) {
+    public Intern update(Long id, Intern intern) {
         return null;
     }
 
