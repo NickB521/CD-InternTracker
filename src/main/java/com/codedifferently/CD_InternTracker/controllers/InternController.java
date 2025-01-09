@@ -2,6 +2,7 @@ package com.codedifferently.CD_InternTracker.controllers;
 
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.services.InternService;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,13 @@ public class InternController {
     }
     @DeleteMapping("delete")
     public ResponseEntity<String> delete(@RequestParam("id") Long id) {
-        String message = internService.delete(id);
-        return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
+        Pair<Boolean, String> result = internService.delete(id);
+        if (result.a) {
+            return new ResponseEntity<>(result.b, HttpStatus.ACCEPTED);
+        }
+        else {
+            return new ResponseEntity<>(result.b, HttpStatus.NOT_FOUND);
+
+        }
     }
 }
