@@ -23,6 +23,8 @@ public class Intern {
     private String internNotes;
     @ElementCollection
     private List<DailySchedule> weeklySchedule;
+    @NonNull
+    public Long getId() {return id;}
 
     @NonNull
     public String getName() {
@@ -32,6 +34,7 @@ public class Intern {
     public void setName(@NonNull String name) {
         this.name = name;
     }
+
 
     @NonNull
     public String getEmail() {
