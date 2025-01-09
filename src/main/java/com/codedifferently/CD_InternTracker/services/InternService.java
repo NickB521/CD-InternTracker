@@ -10,5 +10,5 @@ public interface InternService {
     List<Intern> getByLevel(String level);
     Intern getById(Long id);
     Intern update(Long id, Intern intern);
-    void delete(Long id);
+    String delete(Long id);
 }

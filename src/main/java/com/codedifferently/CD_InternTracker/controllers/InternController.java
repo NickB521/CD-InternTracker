@@ -27,7 +27,12 @@ public class InternController {
 
     @PostMapping
     public ResponseEntity<Intern> create (@RequestBody Intern intern) {
-        intern = internService.create(intern);
-        return new ResponseEntity<>(intern, HttpStatus.CREATED);
+        Intern saved = internService.create(intern);
+        return new ResponseEntity<>(saved, HttpStatus.CREATED);
+    }
+    @DeleteMapping("delete")
+    public ResponseEntity<String> delete(@RequestParam("id") Long id) {
+        String message = internService.delete(id);
+        return new ResponseEntity<>(message, HttpStatus.ACCEPTED);
     }
 }

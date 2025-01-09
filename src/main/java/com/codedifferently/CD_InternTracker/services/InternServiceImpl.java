@@ -50,8 +50,14 @@ public class InternServiceImpl implements InternService{
     }
 
     @Override
-    public void delete(Long id) {
-
-
+    public String delete(Long id) {
+        Optional<Intern> optional = internRepository.findById(id);
+        if (optional.isPresent()) {
+            internRepository.deleteById(id);
+            return ("Object with id: " + id + " successfully deleted");
+        }
+        else {
+            return ("Object with id: " + id + " not found");
+        }
     }
 }
