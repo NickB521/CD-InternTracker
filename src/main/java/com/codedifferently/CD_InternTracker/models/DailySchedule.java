@@ -66,3 +66,4 @@ public class DailySchedule {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+}
