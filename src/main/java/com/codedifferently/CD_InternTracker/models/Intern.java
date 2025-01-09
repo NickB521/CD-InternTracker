@@ -1,10 +1,9 @@
 package com.codedifferently.CD_InternTracker.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
+
+import java.util.List;
 
 @Entity
 public class Intern {
@@ -22,6 +21,8 @@ public class Intern {
     private String phoneNumber;
 
     private String internNotes;
+    @ElementCollection
+    private List<DailySchedule> weeklySchedule;
 
     @NonNull
     public String getName() {
@@ -56,5 +57,12 @@ public class Intern {
 
     public void setInternNotes(String internNotes) {
         this.internNotes = internNotes;
+    }
+    public List<DailySchedule> getWeeklySchedule() {
+        return weeklySchedule;
+    }
+
+    public void setWeeklySchedule(List<DailySchedule> weeklySchedule) {
+        this.weeklySchedule = weeklySchedule;
     }
 }

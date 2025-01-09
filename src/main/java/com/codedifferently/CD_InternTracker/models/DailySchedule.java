@@ -1,17 +1,11 @@
 package com.codedifferently.CD_InternTracker.models;
 
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Embeddable;
 import org.springframework.lang.NonNull;
 
-
+@Embeddable
 public class DailySchedule {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 
     @NonNull
     private String weekDay;
@@ -35,13 +29,6 @@ public class DailySchedule {
     }
 
     // Getters and setters
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getWeekDay() {
         return weekDay;
