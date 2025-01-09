@@ -25,3 +25,45 @@ public class DailySchedule {
     // Default constructor
     public DailySchedule() {
     }
+
+
+    // Constructor with parameters
+    public DailySchedule(String weekDay, String startTime, String endTime) {
+        this.weekDay = weekDay;
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    // Getters and setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getWeekDay() {
+        return weekDay;
+    }
+
+    public void setWeekDay(String weekDay) {
+        this.weekDay = weekDay;
+    }
+
+    public String getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(String startTime) {
+        this.startTime = startTime;
+    }
+
+    public String getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(String endTime) {
+        this.endTime = endTime;
+    }
+}
