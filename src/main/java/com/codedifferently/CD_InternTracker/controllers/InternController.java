@@ -25,6 +25,17 @@ public class InternController {
         List<Intern> interns = internService.getAll();
         return new ResponseEntity<>(interns, HttpStatus.OK);
     }
+    @GetMapping("id")
+    public ResponseEntity<Intern> getById (@RequestParam("id") Long id) {
+        Pair<Boolean, Intern> result = internService.getById(id);
+        if (result.a) {
+            return new ResponseEntity<>(result.b, HttpStatus.OK);
+
+        }
+        else {
+            return new ResponseEntity<>(result.b, HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Intern> create (@RequestBody Intern intern) {

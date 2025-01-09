@@ -41,8 +41,14 @@ public class InternServiceImpl implements InternService{
     }
 
     @Override
-    public Intern getById(Long id) {
-        return null;
+    public Pair<Boolean, Intern> getById(Long id) {
+        Optional<Intern> optional = internRepository.findById(id);
+        if (optional.isPresent()) {
+            return new Pair<Boolean, Intern>(true,optional.get());
+        }
+        else {
+            return new Pair<Boolean, Intern>(false, null);
+        }
     }
 
     @Override

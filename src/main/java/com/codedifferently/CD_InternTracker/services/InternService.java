@@ -9,7 +9,7 @@ public interface InternService {
     Intern create(Intern intern);
     List<Intern> getAll();
     List<Intern> getByLevel(String level);
-    Intern getById(Long id);
+    Pair<Boolean, Intern> getById(Long id);
     Intern update(Long id, Intern intern);
     Pair<Boolean, String> delete(Long id);
 }
