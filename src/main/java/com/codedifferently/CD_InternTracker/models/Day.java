@@ -23,4 +23,43 @@ public class Day {
 
     @NonNull
     private String dayNotes;
+
+    public Long getId() {
+        return id;
+    };
+    public void setId(Long id) {
+        this.id = id;
+    };
+
+    @NonNull
+    public Date getDate() {
+        return date;
+    }
+    public void setDate(@NonNull Date date) {
+        this.date = date;
+    }
+
+    public int getTardiness() {
+        return tardiness;
+    }
+    public void setTardiness(int tardiness) {
+        this.tardiness = tardiness;
+    }
+
+    @NonNull
+    public String getAssignment() {
+        return assignment;
+    }
+    public void setAssignment(@NonNull String assignment) {
+        this.assignment = assignment;
+    }
+
+    @NonNull
+    public String getDayNotes() {
+        return dayNotes;
+    }
+
+    public void setDayNotes(@NonNull String dayNotes) {
+        this.dayNotes = dayNotes;
+    }
 }
