@@ -3,6 +3,7 @@ package com.codedifferently.CD_InternTracker.services;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.repos.InternRepository;
+import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,8 +41,14 @@ public class InternServiceImpl implements InternService{
     }
 
     @Override
-    public Intern getById(Long id) {
-        return null;
+    public Pair<Boolean, Intern> getById(Long id) {
+        Optional<Intern> optional = internRepository.findById(id);
+        if (optional.isPresent()) {
+            return new Pair<Boolean, Intern>(true,optional.get());
+        }
+        else {
+            return new Pair<Boolean, Intern>(false, null);
+        }
     }
 
     @Override
@@ -50,8 +57,14 @@ public class InternServiceImpl implements InternService{
     }
 
     @Override
-    public void delete(Long id) {
-
-
+    public Pair<Boolean, String> delete(Long id) {
+        Optional<Intern> optional = internRepository.findById(id);
+        if (optional.isPresent()) {
+            internRepository.deleteById(id);
+            return new Pair<Boolean, String>(true,"Object with id: " + id + " successfully deleted");
+        }
+        else {
+            return new Pair<Boolean, String>(false,"Object with id: " + id + " not found");
+        }
     }
 }
