@@ -1,6 +1,7 @@
 package com.codedifferently.CD_InternTracker.controllers;
 
 import com.codedifferently.CD_InternTracker.models.Intern;
+import com.codedifferently.CD_InternTracker.models.User;
 import com.codedifferently.CD_InternTracker.services.InternService;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,11 @@ public class InternController {
             return new ResponseEntity<>(result.b, HttpStatus.NOT_FOUND);
         }
     }
-
+    @PutMapping("{id}")
+    public ResponseEntity<Intern> update(@PathVariable("id") Long id, @RequestBody Intern internDetail){
+        internDetail = internService.update(id, internDetail);
+        return new ResponseEntity<>(internDetail, HttpStatus.ACCEPTED);
+    }
     @PostMapping
     public ResponseEntity<Intern> create (@RequestBody Intern intern) {
         Intern saved = internService.create(intern);
