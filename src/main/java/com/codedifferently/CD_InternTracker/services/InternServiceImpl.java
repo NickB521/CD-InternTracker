@@ -67,16 +67,10 @@ public class InternServiceImpl implements InternService{
 
     @Override
     public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
-        try {
-            if (!document.exists()) {
-                throw new ResourceNotFoundException("User not found with uid: " + uid);
-            }
-            ApiFuture<WriteResult> updateFuture = docRef.set(userDetails);
-            updateFuture.get();
-            return userDetails;
-        } catch (InterruptedException | ExecutionException e) {
-            throw new ResourceNotFoundException("Failed to update user");
-        }
+        Intern updatedIntern = getById(id).b;
+        updatedIntern.setWeeklySchedule(internSchedule);
+        updatedIntern = internRepository.save(updatedIntern);
+        return updatedIntern;
     }
 
     @Override
