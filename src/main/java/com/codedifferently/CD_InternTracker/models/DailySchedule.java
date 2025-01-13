@@ -53,4 +53,15 @@ public class DailySchedule {
     public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
+
+    // Override toString method for better representation
+    @Override
+    public String toString() {
+        return "DailySchedule{" +
+                "id=" + id +
+                ", weekDay='" + weekDay + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                '}';
+    }
 }
