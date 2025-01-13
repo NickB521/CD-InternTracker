@@ -58,7 +58,7 @@ public class DailySchedule {
     @Override
     public String toString() {
         return "DailySchedule{" +
-                "id=" + id +
+                //"id=" + id +                              // Haider: This was giving me issues when testing the CRUD requests. Uncomment later.
                 ", weekDay='" + weekDay + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +

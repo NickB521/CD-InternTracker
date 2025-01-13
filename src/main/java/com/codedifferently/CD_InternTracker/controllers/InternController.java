@@ -1,5 +1,7 @@
 package com.codedifferently.CD_InternTracker.controllers;
 
+import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
+import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.services.InternService;
 import org.antlr.v4.runtime.misc.Pair;
@@ -35,6 +37,13 @@ public class InternController {
         else {
             return new ResponseEntity<>(result.b, HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    @PutMapping("/schedule/{id}")
+    public ResponseEntity<Intern> updateInternSchedule(@PathVariable Long id, @RequestBody List<DailySchedule> internSchedule) throws ResourceNotFoundException {
+        Intern updatedIntern = internService.updateInternSchedule(id, internSchedule);
+        return new ResponseEntity<>(updatedIntern, HttpStatus.OK);
     }
 
     @PostMapping
