@@ -23,6 +23,8 @@ public class Intern {
     private String internNotes;
     @ElementCollection
     private List<DailySchedule> weeklySchedule;
+    @ElementCollection
+    private List<Day> attendance;
     @NonNull
     public Long getId() {return id;}
 
@@ -67,5 +69,13 @@ public class Intern {
 
     public void setWeeklySchedule(List<DailySchedule> weeklySchedule) {
         this.weeklySchedule = weeklySchedule;
+    }
+
+    public List<Day> getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(List<Day> attendance) {
+        this.attendance = attendance;
     }
 }

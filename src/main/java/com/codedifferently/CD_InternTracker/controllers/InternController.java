@@ -3,6 +3,7 @@ package com.codedifferently.CD_InternTracker.controllers;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
+import com.codedifferently.CD_InternTracker.models.User;
 import com.codedifferently.CD_InternTracker.services.InternService;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/interns")
+@RequestMapping("/api/intern")
 public class InternController {
     private InternService internService;
 
@@ -37,6 +38,11 @@ public class InternController {
         else {
             return new ResponseEntity<>(result.b, HttpStatus.NOT_FOUND);
         }
+    }
+    @PutMapping("{id}")
+    public ResponseEntity<Intern> update(@PathVariable("id") Long id, @RequestBody Intern internDetail){
+        internDetail = internService.update(id, internDetail);
+        return new ResponseEntity<>(internDetail, HttpStatus.ACCEPTED);
     }
 
 

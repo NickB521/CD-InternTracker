@@ -54,8 +54,15 @@ public class InternServiceImpl implements InternService{
     }
 
     @Override
-    public Intern update(Long id, Intern intern) {
-        return null;
+    public Intern update(Long id, Intern oldIntern) {
+        Intern updatedIntern = getById(id).b;
+        updatedIntern.setName(oldIntern.getName());
+        updatedIntern.setEmail(oldIntern.getEmail());
+        updatedIntern.setInternNotes(oldIntern.getInternNotes());
+        updatedIntern.setAttendance(oldIntern.getAttendance());
+        updatedIntern.setWeeklySchedule(oldIntern.getWeeklySchedule());
+        updatedIntern = internRepository.save(updatedIntern);
+        return updatedIntern;
     }
 
     @Override
