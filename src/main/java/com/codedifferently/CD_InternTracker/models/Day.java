@@ -1,16 +1,15 @@
 package com.codedifferently.CD_InternTracker.models;
 
+import jakarta.persistence.Embeddable;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.springframework.lang.NonNull;
 
 import java.util.Date;
-
+@Embeddable
 public class Day {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
 
     @NonNull
     private Date date;
@@ -24,12 +23,6 @@ public class Day {
     @NonNull
     private String dayNotes;
 
-    public Long getId() {
-        return id;
-    };
-    public void setId(Long id) {
-        this.id = id;
-    };
 
     @NonNull
     public Date getDate() {
