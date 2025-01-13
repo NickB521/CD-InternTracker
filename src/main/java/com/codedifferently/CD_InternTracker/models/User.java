@@ -1,10 +1,16 @@
 package com.codedifferently.CD_InternTracker.models;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import org.springframework.lang.NonNull;
+import lombok.*;
 
+@Entity
+@NoArgsConstructor
+@RequiredArgsConstructor
+@Data
 public class User {
 
 
@@ -29,6 +35,8 @@ private String password;
 
 @NonNull
     private boolean isTA;
+
+
 
 //need to implement the list of interns into this file.
 }
