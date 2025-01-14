@@ -31,6 +31,9 @@ private String password;
     private String name;
 
 @NonNull
+    private String createdBy;
+
+@NonNull
     private boolean isAdmin;
 
 @NonNull
