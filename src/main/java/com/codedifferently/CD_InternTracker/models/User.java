@@ -1,11 +1,10 @@
 package com.codedifferently.CD_InternTracker.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import lombok.*;
+
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -38,6 +37,9 @@ private String password;
 
 @NonNull
     private boolean isTA;
+
+    @ElementCollection
+    private List<Intern> internList;
 
 
 
