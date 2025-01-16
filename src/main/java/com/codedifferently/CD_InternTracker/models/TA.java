@@ -4,14 +4,20 @@ import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
-@Table(name = "app_user")
-public class User {
 
-//
+
+
+@Table(name = "app_user")
+public class TA {
+
+
+
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
@@ -29,10 +35,16 @@ private String password;
     private String name;
 
 @NonNull
+    private String createdBy;
+
+@NonNull
     private boolean isAdmin;
 
 @NonNull
     private boolean isTA;
+
+    @ElementCollection
+    private List<Intern> internList;
 
 
 
