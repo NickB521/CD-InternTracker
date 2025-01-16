@@ -4,15 +4,20 @@ import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import org.antlr.v4.runtime.misc.Pair;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOError;
+import java.io.IOException;
 import java.util.List;
 
 public interface InternService {
     Intern create(Intern intern);
+    List<Intern> createByCSV(MultipartFile csvFile) throws Exception;
     List<Intern> getAll();
     List<Intern> getByLevel(String level);
     Pair<Boolean, Intern> getById(Long id);
     Intern update(Long id, Intern intern);
-    Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException;
+//    Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException;
     Pair<Boolean, String> delete(Long id);
 }
