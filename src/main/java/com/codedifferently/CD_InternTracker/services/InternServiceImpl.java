@@ -5,10 +5,16 @@ import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.repos.InternRepository;
+import com.opencsv.CSVReader;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,6 +36,22 @@ public class InternServiceImpl implements InternService{
         }
         internRepository.save(intern);
         return intern;
+    }
+
+    @Override
+    public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
+        ArrayList<Intern> interns = new ArrayList<>();
+        try  {
+            CSVReader csvReader = new CSVReader(new InputStreamReader(csvFile.getInputStream()));
+            List<String[]> rows = csvReader.readAll();
+            rows.remove(0);
+
+
+        }
+        catch (Exception e) {
+            return interns;
+        };
+        return null;
     }
 
     @Override
