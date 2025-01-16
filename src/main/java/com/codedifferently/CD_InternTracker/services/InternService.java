@@ -18,6 +18,9 @@ public interface InternService {
     List<Intern> getByLevel(String level);
     Pair<Boolean, Intern> getById(Long id);
     Intern update(Long id, Intern intern);
-//    Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException;
+
+    Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException;
+
+    //    Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException;
     Pair<Boolean, String> delete(Long id);
 }

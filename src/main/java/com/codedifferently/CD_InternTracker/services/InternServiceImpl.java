@@ -6,13 +6,11 @@ import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.repos.InternRepository;
 import com.opencsv.CSVReader;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
