@@ -3,7 +3,7 @@ package com.codedifferently.CD_InternTracker.services;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.TA;
-import com.codedifferently.CD_InternTracker.repos.UserRepo;
+import com.codedifferently.CD_InternTracker.repos.TARepo;
 import org.springframework.stereotype.Service;
 
 
@@ -13,44 +13,39 @@ import java.util.Optional;
 
 @Service
 public class TAServiceImpl implements TAService {
-private UserRepo userRepo;
+private TARepo TARepo;
 
-    public TAServiceImpl(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    public TAServiceImpl(TARepo TARepo) {
+        this.TARepo = TARepo;
     }
 
     @Override
     public TA create(TA TA) throws ResourceCreationException {
-        Optional<TA> optional = userRepo.findByEmail(TA.getEmail());
+        Optional<TA> optional = TARepo.findByEmail(TA.getEmail());
         if(optional.isPresent()){
             throw new ResourceCreationException("User with email exists: " + TA.getEmail());
         }
-       TA = userRepo.save(TA);
+       TA = TARepo.save(TA);
         return TA;
     }
 
     @Override
     public TA getById(Long id) throws ResourceNotFoundException {
-        TA TA = userRepo.findById(id)
+        TA TA = TARepo.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("No user with id: " + id));
         return TA;
     }
 
     @Override
     public TA getByEmail(String email) throws ResourceNotFoundException {
-       TA TA = userRepo.findByEmail(email)
+       TA TA = TARepo.findByEmail(email)
                 .orElseThrow(()->new ResourceNotFoundException("No user with email: " + email));
         return TA;
     }
 
     @Override
     public List<TA> getAll() {
-        return userRepo.findAll();
-    }
-
-    @Override
-    public User update(Long id, User userDetail) {
-        return null;
+        return TARepo.findAll();
     }
 
     @Override
@@ -62,7 +57,7 @@ private UserRepo userRepo;
         TA.setName(TADetail.getName());
         TA.setAdmin(TADetail.isAdmin());
         TA.setTA(TADetail.isTA());
-        TA = userRepo.save(TA);
+        TA = TARepo.save(TA);
         return TA;
 
 
@@ -71,11 +66,8 @@ private UserRepo userRepo;
     @Override
     public void delete(Long id) {
         TA TA = getById(id);
-        userRepo.delete(TA);
+        TARepo.delete(TA);
     }
 
-    @Override
-    public User create(User user) throws ResourceCreationException {
-        return null;
-    }
+
 }
