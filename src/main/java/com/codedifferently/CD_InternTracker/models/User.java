@@ -1,9 +1,6 @@
 package com.codedifferently.CD_InternTracker.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import lombok.*;
 
@@ -11,6 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
+@Table(name = "app_user")
 public class User {
 
 //
