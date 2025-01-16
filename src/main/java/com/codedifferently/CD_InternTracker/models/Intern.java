@@ -16,6 +16,8 @@ public class Intern {
 
     @NonNull
     private String email;
+    private String level;
+
 
     @NonNull
     private String phoneNumber;
@@ -77,5 +79,13 @@ public class Intern {
 
     public void setAttendance(List<Day> attendance) {
         this.attendance = attendance;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }
