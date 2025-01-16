@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface UserService {
 
+
    User create(User user) throws ResourceCreationException;
     User getById(Long id) throws ResourceNotFoundException;
 
@@ -17,4 +18,17 @@ public interface UserService {
   User update(Long id, User userDetail);
 
    void delete(Long id);
+
+    User create(User user) throws ResourceCreationException;
+
+    User getById(Long id) throws ResourceNotFoundException;
+
+    User getByEmail(String email) throws ResourceNotFoundException;
+
+    List<User> getAll();
+
+    User update(Long id, User userDetail);
+
+    void delete(Long id);
+
 }
