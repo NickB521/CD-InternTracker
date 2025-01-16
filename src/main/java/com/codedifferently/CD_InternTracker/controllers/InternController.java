@@ -41,25 +41,18 @@ public class InternController {
             return new ResponseEntity<>(result.b, HttpStatus.NOT_FOUND);
         }
     }
-
-    @GetMapping("level")
-    public ResponseEntity<List<Intern>> getByLevel (@RequestParam("level") String level) {
-        List<Intern> result = internService.getByLevel(level);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-
-    }
     @PutMapping("{id}")
     public ResponseEntity<Intern> update(@PathVariable("id") Long id, @RequestBody Intern internDetail){
         internDetail = internService.update(id, internDetail);
         return new ResponseEntity<>(internDetail, HttpStatus.ACCEPTED);
     }
 
-//
-//    @PutMapping("/schedule/{id}")
-//    public ResponseEntity<Intern> updateInternSchedule(@PathVariable Long id, @RequestBody List<DailySchedule> internSchedule) throws ResourceNotFoundException {
-//        Intern updatedIntern = internService.updateInternSchedule(id, internSchedule);
-//        return new ResponseEntity<>(updatedIntern, HttpStatus.OK);
-//    }
+
+    @PutMapping("/schedule/{id}")
+    public ResponseEntity<Intern> updateInternSchedule(@PathVariable Long id, @RequestBody List<DailySchedule> internSchedule) throws ResourceNotFoundException {
+        Intern updatedIntern = internService.updateInternSchedule(id, internSchedule);
+        return new ResponseEntity<>(updatedIntern, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<Intern> create (@RequestBody Intern intern) {

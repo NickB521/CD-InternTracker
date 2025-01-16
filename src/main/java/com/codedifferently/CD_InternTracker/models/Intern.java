@@ -19,7 +19,7 @@ public class Intern {
 
     @NonNull
     private String phoneNumber;
-    private String level;
+
     private String internNotes;
     @ElementCollection
     private List<DailySchedule> weeklySchedule;
@@ -77,13 +77,5 @@ public class Intern {
 
     public void setAttendance(List<Day> attendance) {
         this.attendance = attendance;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
     }
 }

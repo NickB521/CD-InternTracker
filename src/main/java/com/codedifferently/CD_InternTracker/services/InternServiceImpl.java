@@ -94,6 +94,7 @@ public class InternServiceImpl implements InternService{
         return null;
     }
 
+
    @Override
    public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
        try {
@@ -107,6 +108,8 @@ public class InternServiceImpl implements InternService{
             throw new ResourceNotFoundException("Failed to update user");
         }
     }
+
+
 
     @Override
     public Pair<Boolean, String> delete(Long id) {

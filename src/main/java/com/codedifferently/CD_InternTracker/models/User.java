@@ -1,10 +1,11 @@
 package com.codedifferently.CD_InternTracker.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import org.springframework.lang.NonNull;
 import lombok.*;
-
-import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -12,7 +13,7 @@ import java.util.List;
 @Data
 public class User {
 
-
+//
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
@@ -30,16 +31,10 @@ private String password;
     private String name;
 
 @NonNull
-    private String createdBy;
-
-@NonNull
     private boolean isAdmin;
 
 @NonNull
     private boolean isTA;
-
-    @ElementCollection
-    private List<Intern> internList;
 
 
 
