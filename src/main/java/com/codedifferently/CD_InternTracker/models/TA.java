@@ -10,7 +10,12 @@ import java.util.List;
 @NoArgsConstructor
 @RequiredArgsConstructor
 @Data
-public class User {
+
+
+
+@Table(name = "app_user")
+public class TA {
+
 
 
 @Id
