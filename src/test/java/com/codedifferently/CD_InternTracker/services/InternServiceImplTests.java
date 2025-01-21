@@ -51,4 +51,40 @@ class InternServiceImplTest {
         assertThrows(ResourceCreationException.class, () -> internService.create(intern));
         verify(internRepository, never()).save(any());
     }
+    @Test
+    void testGetAll() {
+        List<Intern> internList = new ArrayList<>();
+        internList.add(new Intern());
+        internList.add(new Intern());
+
+        when(internRepository.findAll()).thenReturn(internList);
+
+        List<Intern> result = internService.getAll();
+
+        assertEquals(2, result.size());
+        verify(internRepository, times(1)).findAll();
+    }
+    @Test
+    void testGetById_Found() {
+        Intern intern = new Intern();
+        intern.setId(1L);
+
+        when(internRepository.findById(1L)).thenReturn(Optional.of(intern));
+
+        var result = internService.getById(1L);
+
+        assertTrue(result.a);
+        assertEquals(intern, result.b);
+        verify(internRepository, times(1)).findById(1L);
+    }
+    @Test
+    void testGetById_NotFound() {
+        when(internRepository.findById(1L)).thenReturn(Optional.empty());
+
+        var result = internService.getById(1L);
+
+        assertFalse(result.a);
+        assertNull(result.b);
+        verify(internRepository, times(1)).findById(1L);
+    }
 }
