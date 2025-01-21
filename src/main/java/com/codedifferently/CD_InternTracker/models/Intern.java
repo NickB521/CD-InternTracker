@@ -1,11 +1,13 @@
 package com.codedifferently.CD_InternTracker.models;
 
 import jakarta.persistence.*;
+import lombok.NoArgsConstructor;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
 
 @Entity
+@NoArgsConstructor
 public class Intern {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +29,16 @@ public class Intern {
     private List<DailySchedule> weeklySchedule;
     @ElementCollection
     private List<Day> attendance;
+
+    public Intern(@NonNull String name, @NonNull String email, String level, @NonNull String phoneNumber, String internNotes, List<DailySchedule> weeklySchedule, List<Day> attendance) {
+        this.name = name;
+        this.email = email;
+        this.level = level;
+        this.phoneNumber = phoneNumber;
+        this.internNotes = internNotes;
+        this.weeklySchedule = weeklySchedule;
+        this.attendance = attendance;
+    }
     @NonNull
     public Long getId() {return id;}
 
