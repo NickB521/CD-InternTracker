@@ -48,20 +48,14 @@ public class InternServiceImpl implements InternService{
             List<String[]> rows = csvReader.readAll();
             rows.remove(0); //removing header row
             for (String[] row: rows) {
-
-                String stringSchedule = row[3];
-
-                ArrayList<DailySchedule> schedule = new ArrayList<DailySchedule>();
-                System.out.println(stringSchedule);
-
                 Intern intern = new Intern(
                         row[1] + " "  + row[2], //name
                         row[4], //email
                         row[0], //level
                         row[5], //phone number
                         "", //notes, not provided in file
-                        schedule, //schedule
-                        new ArrayList<Day>()//attendance, starts blank
+                        new ArrayList<DailySchedule>(), //schedule, not provided
+                        new ArrayList<Day>() //attendance, starts blank
                 );
 
                 Intern savedIntern = create(intern);
