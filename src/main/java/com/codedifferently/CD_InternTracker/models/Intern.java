@@ -88,4 +88,8 @@ public class Intern {
     public void setLevel(String level) {
         this.level = level;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }    
 }

@@ -1,7 +1,6 @@
 package com.codedifferently.CD_InternTracker.services;
 
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
-import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.repos.InternRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -86,5 +85,45 @@ class InternServiceImplTest {
         assertFalse(result.a);
         assertNull(result.b);
         verify(internRepository, times(1)).findById(1L);
+    }
+    @Test
+    void testUpdate() {
+        Intern existingIntern = new Intern();
+        existingIntern.setId(1L);
+
+        Intern updatedIntern = new Intern();
+        updatedIntern.setName("Updated Name");
+
+        when(internRepository.findById(1L)).thenReturn(Optional.of(existingIntern));
+        when(internRepository.save(existingIntern)).thenReturn(existingIntern);
+
+        Intern result = internService.update(1L, updatedIntern);
+
+        assertEquals("Updated Name", result.getName());
+        verify(internRepository, times(1)).save(existingIntern);
+    }
+    @Test
+    void testDelete_Found() {
+        Intern intern = new Intern();
+        intern.setId(1L);
+
+        when(internRepository.findById(1L)).thenReturn(Optional.of(intern));
+        doNothing().when(internRepository).deleteById(1L);
+
+        var result = internService.delete(1L);
+
+        assertTrue(result.a);
+        assertEquals("Object with id: 1 successfully deleted", result.b);
+        verify(internRepository, times(1)).deleteById(1L);
+    }
+    @Test
+    void testDelete_NotFound() {
+        when(internRepository.findById(1L)).thenReturn(Optional.empty());
+
+        var result = internService.delete(1L);
+
+        assertFalse(result.a);
+        assertEquals("Object with id: 1 not found", result.b);
+        verify(internRepository, never()).deleteById(1L);
     }
 }
