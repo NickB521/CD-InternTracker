@@ -11,7 +11,7 @@ import java.util.Date;
 @Component
 public class TokenUtil {
     //will change these two to environment variables before deployment
-    private static final String SECRET_KEY = "93b345c3f0032d3cade3acddfd8dda7fffcb8f2eb13256b7a97b17e13740dd8e";
+    private static final String SECRET_KEY = "placeholder";
     private static final long EXPIRATION_TIME = 86400000;
 
     private static final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
