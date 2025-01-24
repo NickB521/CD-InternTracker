@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.lang.Exception;
-import java.util.concurrent.ExecutionException;
 
 @Service
 public class InternServiceImpl implements InternService{
@@ -89,27 +88,19 @@ public class InternServiceImpl implements InternService{
 
     @Override
     public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
-
-        //this doesn't do anything yet
-        return null;
-    }
-
-
-   @Override
-   public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
-       try {
-           if (!document.exists()) {
-               throw new ResourceNotFoundException("User not found with uid: " + id);
-           }
-          ApiFuture<WriteResult> updateFuture = docRef.set(userDetails);
-           updateFuture.get();
-          return userDetails;
-       } catch (InterruptedException | ExecutionException e) {
-            throw new ResourceNotFoundException("Failed to update user");
+        Optional<Intern> optionalIntern = internRepository.findById(id);
+    
+        if (optionalIntern.isEmpty()) {
+            throw new ResourceNotFoundException("Intern with ID " + id + " not found.");
         }
-    }
-
-
+    
+        Intern intern = optionalIntern.get();
+        intern.setWeeklySchedule(internSchedule);
+    
+        intern = internRepository.save(intern);
+    
+        return intern;
+    }    
 
     @Override
     public Pair<Boolean, String> delete(Long id) {
