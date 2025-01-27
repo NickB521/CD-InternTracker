@@ -34,6 +34,8 @@ private String password;
 @NonNull
     private boolean isTA;
 
+    public User(String password123, String mail, String number, String john, boolean b, boolean b1) {
+    }
 
 
 //need to implement the list of interns into this file.
