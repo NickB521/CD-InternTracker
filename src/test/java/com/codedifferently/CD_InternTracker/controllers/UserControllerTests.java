@@ -5,6 +5,7 @@ import com.codedifferently.CD_InternTracker.models.TA;
 import com.codedifferently.CD_InternTracker.repos.TARepo;
 import com.codedifferently.CD_InternTracker.services.TAServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -27,7 +28,7 @@ class UserControllerTests {
         MockitoAnnotations.openMocks(this);
     }
 
-
+@Test
     void testCreate_TADoesNotExist() throws ResourceCreationException {
         TA TA = new TA();
         TA.setEmail("test@example.com");
