@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class TokenUtil {
@@ -21,8 +23,13 @@ public class TokenUtil {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, boolean isAdmin) {
+        Map<String, Boolean> roles = new HashMap<>();
+
+        roles.put("isAdmin", isAdmin);
+
         return Jwts.builder()
+                .setClaims(roles)
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
@@ -40,6 +47,15 @@ public class TokenUtil {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+    //takes the output of generateToken and finds the admin status that it was generated with
+    public boolean extractIsAdmin(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .get("isAdmin", Boolean.class);
     }
 
     private boolean isTokenExpired(String token) {
