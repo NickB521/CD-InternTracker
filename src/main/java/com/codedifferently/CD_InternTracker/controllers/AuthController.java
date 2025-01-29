@@ -2,6 +2,7 @@ package com.codedifferently.CD_InternTracker.controllers;
 
 
 import com.codedifferently.CD_InternTracker.authentication.TokenUtil;
+import com.codedifferently.CD_InternTracker.models.TA;
 import com.codedifferently.CD_InternTracker.services.TAService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,9 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -34,12 +33,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestParam String email, @RequestParam String password) {
-
-        String realPass = TAService.getByEmail(email).getPassword();
-
+        TA ta = TAService.getByEmail(email);
+        String realPass = ta.getPassword();
+        boolean adminStatus = ta.isAdmin();
 
             if (realPass.equals(password)) {
-                String token = tokenUtil.generateToken(email);
+                String token = tokenUtil.generateToken(email, adminStatus);
 
 
                 Map<String, String> responseBody = new HashMap<>();
@@ -55,8 +54,5 @@ public class AuthController {
             }
     }
 
-    @PostMapping("/register")
-    public String register(@RequestParam String username, @RequestParam String password) {
-        return "";
-    }
+
 }
