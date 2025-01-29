@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -48,5 +50,42 @@ class InternControllerTests {
                 .andExpect(jsonPath("$.length()").value(interns.size()));
 
         verify(internService, times(1)).getAll();
+    }
+
+    @Test
+    void testGetById() throws Exception {
+        Long id = 1L;
+        Intern intern = new Intern();
+        when(internService.getById(id)).thenReturn(new Pair<>(true, intern));
+
+        mockMvc.perform(get("/api/intern/id").param("id", id.toString()))
+                .andExpect(status().isOk());
+
+        verify(internService, times(1)).getById(id);
+    }
+
+    @Test
+    void testGetById_NotFound() throws Exception {
+        Long id = 1L;
+        when(internService.getById(id)).thenReturn(new Pair<>(false, null));
+
+        mockMvc.perform(get("/api/intern/id").param("id", id.toString()))
+                .andExpect(status().isNotFound());
+
+        verify(internService, times(1)).getById(id);
+    }
+
+    @Test
+    void testUpdate() throws Exception {
+        Long id = 1L;
+        Intern internDetail = new Intern();
+        when(internService.update(eq(id), any(Intern.class))).thenReturn(internDetail);
+
+        mockMvc.perform(put("/api/intern/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isAccepted());
+
+        verify(internService, times(1)).update(eq(id), any(Intern.class));
     }
 }
