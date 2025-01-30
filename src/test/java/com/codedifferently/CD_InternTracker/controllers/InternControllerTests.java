@@ -88,4 +88,19 @@ class InternControllerTests {
 
         verify(internService, times(1)).update(eq(id), any(Intern.class));
     }
+
+    @Test
+    void testUpdateInternSchedule() throws Exception {
+        Long id = 1L;
+        List<DailySchedule> schedule = Collections.emptyList();
+        Intern updatedIntern = new Intern();
+        when(internService.updateInternSchedule(id, schedule)).thenReturn(updatedIntern);
+
+        mockMvc.perform(put("/api/intern/schedule/{id}", id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("[]"))
+                .andExpect(status().isOk());
+
+        verify(internService, times(1)).updateInternSchedule(id, schedule);
+    }
 }
