@@ -57,7 +57,7 @@ class UserControllerTests {
     }
     @Test
     void testGetAll() {
-        TA<TA> TAList = new ArrayList<TA>();
+        List<TA> TAList = new ArrayList<TA>();
         TAList.add(new TA());
         TAList.add(new TA());
 
@@ -69,6 +69,72 @@ class UserControllerTests {
         verify(TARepository, times(1)).findAll();
     }
 
+    @Test
+    void testGetById_Found() {
+        TA TA = new TA();
+        TA.setId(1L);
 
-    //create tests for: Get by id, get by email, getall, update, delete
+        when(TARepository.findById(1L)).thenReturn(Optional.of(TA));
+
+        var result = TAService.getById(1L);
+
+        assertTrue(result.a);
+        assertEquals(TA, result.b);
+        verify(TARepository, times(1)).findById(1L);
+    }
+    @Test
+    void testGetById_NotFound() {
+        when(TARepository.findById(1L)).thenReturn(Optional.empty());
+
+        var result = TAService.getById(1L);
+
+        assertFalse(result.a);
+        assertNull(result.b);
+        verify(TARepository, times(1)).findById(1L);
+    }
+
+    void testUpdate() {
+        TA existingTA = new TA();
+        existingTA.setId(1L);
+
+        TA updatedTA = new TA();
+        updatedTA.setName("Updated Name");
+
+        when(TARepository.findById(1L)).thenReturn(Optional.of(existingTA));
+        when(TARepository.save(existingTA)).thenReturn(existingTA);
+
+        TA result = TAService.update(1L, updatedTA);
+
+        assertEquals("Updated Name", result.getName());
+        verify(TARepository, times(1)).save(existingTA);
+    }
+
+    @Test
+    void testDelete_Found() {
+        TA TA = new TA();
+        TA.setId(1L);
+
+        when(TARepository.findById(1L)).thenReturn(Optional.of(TA));
+        doNothing().when(TARepository).deleteById(1L);
+
+        var result = TAService.delete(1L);
+
+        assertTrue(result.a);
+        assertEquals("Object with id: 1 successfully deleted", result.b);
+        verify(TARepository, times(1)).deleteById(1L);
+    }
+    @Test
+    void testDelete_NotFound() {
+        when(TARepository.findById(1L)).thenReturn(Optional.empty());
+
+        var result = TAService.delete(1L);
+
+        assertFalse(result.a);
+        assertEquals("Object with id: 1 not found", result.b);
+        verify(TARepository, never()).deleteById(1L);
+    }
+
+
+
+    //create tests for:  get by email
 }
