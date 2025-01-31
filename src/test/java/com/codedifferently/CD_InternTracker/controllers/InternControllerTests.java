@@ -103,4 +103,30 @@ class InternControllerTests {
 
         verify(internService, times(1)).updateInternSchedule(id, schedule);
     }
+
+    @Test
+    void testCreate() throws Exception {
+        Intern intern = new Intern();
+        when(internService.create(any(Intern.class))).thenReturn(intern);
+
+        mockMvc.perform(post("/api/intern")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(status().isCreated());
+
+        verify(internService, times(1)).create(any(Intern.class));
+    }
+
+    @Test
+    void testCreateByCSV() throws Exception {
+        MockMultipartFile csvFile = new MockMultipartFile("csvFile", "test.csv", "text/csv", "data".getBytes());
+        List<Intern> interns = Arrays.asList(new Intern(), new Intern());
+        when(internService.createByCSV(any())).thenReturn(interns);
+
+        mockMvc.perform(multipart("/api/intern/csv").file(csvFile))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(interns.size()));
+
+        verify(internService, times(1)).createByCSV(any());
+    }
 }
