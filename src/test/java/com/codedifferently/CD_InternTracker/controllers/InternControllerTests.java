@@ -129,4 +129,28 @@ class InternControllerTests {
 
         verify(internService, times(1)).createByCSV(any());
     }
+
+    @Test
+    void testDelete() throws Exception {
+        Long id = 1L;
+        when(internService.delete(id)).thenReturn(new Pair<>(true, "Deleted successfully"));
+
+        mockMvc.perform(delete("/api/intern/delete").param("id", id.toString()))
+                .andExpect(status().isAccepted())
+                .andExpect(content().string("Deleted successfully"));
+
+        verify(internService, times(1)).delete(id);
+    }
+
+    @Test
+    void testDelete_NotFound() throws Exception {
+        Long id = 1L;
+        when(internService.delete(id)).thenReturn(new Pair<>(false, "Intern not found"));
+
+        mockMvc.perform(delete("/api/intern/delete").param("id", id.toString()))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("Intern not found"));
+
+        verify(internService, times(1)).delete(id);
+    }
 }
