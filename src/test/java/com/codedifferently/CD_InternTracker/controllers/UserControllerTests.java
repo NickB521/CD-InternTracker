@@ -78,8 +78,7 @@ class UserControllerTests {
 
         var result = TAService.getById(1L);
 
-        assertTrue(result.a);
-        assertEquals(TA, result.b);
+        assertEquals(TA, result);
         verify(TARepository, times(1)).findById(1L);
     }
     @Test
@@ -88,8 +87,8 @@ class UserControllerTests {
 
         var result = TAService.getById(1L);
 
-        assertFalse(result.a);
-        assertNull(result.b);
+
+        assertNull(result);
         verify(TARepository, times(1)).findById(1L);
     }
 
@@ -119,8 +118,8 @@ class UserControllerTests {
 
         var result = TAService.delete(1L);
 
-        assertTrue(result.a);
-        assertEquals("Object with id: 1 successfully deleted", result.b);
+
+        assertEquals("Object with id: 1 successfully deleted", result);
         verify(TARepository, times(1)).deleteById(1L);
     }
     @Test
@@ -129,8 +128,8 @@ class UserControllerTests {
 
         var result = TAService.delete(1L);
 
-        assertFalse(result.a);
-        assertEquals("Object with id: 1 not found", result.b);
+
+        assertEquals("Object with id: 1 not found", result);
         verify(TARepository, never()).deleteById(1L);
     }
 
