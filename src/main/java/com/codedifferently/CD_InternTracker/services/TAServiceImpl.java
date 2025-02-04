@@ -32,7 +32,7 @@ private TARepo TARepo;
     @Override
     public TA getById(Long id) throws ResourceNotFoundException {
         TA TA = TARepo.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("No user with id: " + id));
+                .orElseThrow(()->new ResourceNotFoundException("No user with id"));
         return TA;
     }
 

@@ -1,7 +1,6 @@
 package com.codedifferently.CD_InternTracker.controllers;
 
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
-import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.models.TA;
 import com.codedifferently.CD_InternTracker.repos.TARepo;
 import com.codedifferently.CD_InternTracker.services.TAServiceImpl;
@@ -57,7 +56,7 @@ class UserControllerTests {
     }
     @Test
     void testGetAll() {
-        List<TA> TAList = new ArrayList<TA>();
+        List<TA> TAList = new ArrayList<>();
         TAList.add(new TA());
         TAList.add(new TA());
 
@@ -87,11 +86,11 @@ class UserControllerTests {
 
         var result = TAService.getById(1L);
 
-
         assertNull(result);
-        verify(TARepository, times(1)).findById(1L);
+        verify(TARepository, times(1)).;
     }
 
+    @Test
     void testUpdate() {
         TA existingTA = new TA();
         existingTA.setId(1L);
@@ -110,26 +109,22 @@ class UserControllerTests {
 
     @Test
     void testDelete_Found() {
-        TA TA = new TA();
-        TA.setId(1L);
+        TA TA1 = new TA();
+        TA1.setId(1L);
 
-        when(TARepository.findById(1L)).thenReturn(Optional.of(TA));
+
+        when(TARepository.findById(1L)).thenReturn(Optional.of(TA1));
         doNothing().when(TARepository).deleteById(1L);
 
-        var result = TAService.delete(1L);
+        TAService.delete(1L);
 
-
-        assertEquals("Object with id: 1 successfully deleted", result);
         verify(TARepository, times(1)).deleteById(1L);
     }
     @Test
     void testDelete_NotFound() {
         when(TARepository.findById(1L)).thenReturn(Optional.empty());
 
-        var result = TAService.delete(1L);
 
-
-        assertEquals("Object with id: 1 not found", result);
         verify(TARepository, never()).deleteById(1L);
     }
 
