@@ -1,6 +1,7 @@
 package com.codedifferently.CD_InternTracker.controllers;
 
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
+import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.TA;
 import com.codedifferently.CD_InternTracker.repos.TARepo;
 import com.codedifferently.CD_InternTracker.services.TAServiceImpl;
@@ -86,7 +87,7 @@ class UserControllerTests {
 
         var result = TAService.getById(99L);
 
-        assertNull(result);
+        assertThrows(ResourceNotFoundException.class);
         verify(TARepository, times(1)).findById(99L);
     }
 
