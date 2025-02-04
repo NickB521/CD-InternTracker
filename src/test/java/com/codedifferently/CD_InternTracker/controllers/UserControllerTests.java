@@ -87,7 +87,7 @@ class UserControllerTests {
 
         var result = TAService.getById(99L);
 
-        assertThrows(ResourceNotFoundException.class);
+        assertTrue(result.isEmpty());
         verify(TARepository, times(1)).findById(99L);
     }
 
