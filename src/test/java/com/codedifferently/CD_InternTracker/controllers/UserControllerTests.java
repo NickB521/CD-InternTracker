@@ -82,12 +82,12 @@ class UserControllerTests {
     }
     @Test
     void testGetById_NotFound() {
-        when(TARepository.findById(1L)).thenReturn(Optional.empty());
+        when(TARepository.findById(99L)).thenReturn(Optional.empty());
 
-        var result = TAService.getById(1L);
+        var result = TAService.getById(99L);
 
         assertNull(result);
-        verify(TARepository, times(1)).;
+        verify(TARepository, times(1)).findById(99L);
     }
 
     @Test
