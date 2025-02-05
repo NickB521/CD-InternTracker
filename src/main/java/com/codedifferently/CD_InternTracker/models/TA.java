@@ -15,38 +15,74 @@ import java.util.List;
 
 @Table(name = "app_user")
 public class TA {
-
-
-
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
-
-@NonNull
-private String password;
-
-@NonNull
+    private Long id;  // Make sure the type of id is Long (or whatever type you use in your DB)
+    private String password;
     private String email;
-
-@NonNull
     private String phoneNumber;
-
-@NonNull
     private String name;
-
-@NonNull
-    private String createdBy;
-
-@NonNull
     private boolean isAdmin;
-
-@NonNull
     private boolean isTA;
 
-    @ElementCollection
-    private List<Intern> internList;
+    // Getter and Setter methods for id
+    public Long getId() {
+        return id;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
+    // Getter and Setter methods for password
+    public String getPassword() {
+        return password;
+    }
 
-//need to implement the list of interns into this file.
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Getter and Setter methods for email
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    // Getter and Setter methods for phoneNumber
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    // Getter and Setter methods for name
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // Getter and Setter methods for isAdmin
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
+    // Getter and Setter methods for isTA
+    public boolean isTA() {
+        return isTA;
+    }
+
+    public void setTA(boolean isTA) {
+        this.isTA = isTA;
+    }
 }
