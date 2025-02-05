@@ -81,15 +81,13 @@ class UserControllerTests {
         assertEquals(TA, result);
         verify(TARepository, times(1)).findById(1L);
     }
-    @Test
-    void testGetById_NotFound() {
-        when(TARepository.findById(99L)).thenReturn(Optional.empty());
 
-        var result = TAService.getById(99L);
 
-        assertTrue(result.isEmpty());
-        verify(TARepository, times(1)).findById(99L);
-    }
+    @Test void testGetById_NotFound() {
+         when(TARepository.findById(anyLong())).thenReturn(Optional.empty());
+           assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!" );
+          assertThrows(ResourceNotFoundException.class, () -> TAService.getById(99L), "Expected getById() to throw, but it didn't!" );
+            verify(TARepository, times(1)).findById(1L); verify(TARepository, times(1)).findById(99L); }
 
     @Test
     void testUpdate() {
@@ -98,6 +96,9 @@ class UserControllerTests {
 
         TA updatedTA = new TA();
         updatedTA.setName("Updated Name");
+        updatedTA.setPassword("Pass2");
+        updatedTA.setEmail("email@2.com");
+        updatedTA.setPhoneNumber("302-111-1111");
 
         when(TARepository.findById(1L)).thenReturn(Optional.of(existingTA));
         when(TARepository.save(existingTA)).thenReturn(existingTA);
@@ -118,8 +119,8 @@ class UserControllerTests {
         doNothing().when(TARepository).deleteById(1L);
 
         TAService.delete(1L);
-
-        verify(TARepository, times(1)).deleteById(1L);
+        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!" );
+        verify(TARepository, times(1)).findById(1L);
     }
     @Test
     void testDelete_NotFound() {
