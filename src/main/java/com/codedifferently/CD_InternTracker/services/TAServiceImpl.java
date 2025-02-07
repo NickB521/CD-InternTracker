@@ -32,7 +32,7 @@ private TARepo TARepo;
     @Override
     public TA getById(Long id) throws ResourceNotFoundException {
         TA TA = TARepo.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("No user with id"));
+                .orElseThrow(()->new ResourceNotFoundException("No user with id: " + id));
         return TA;
     }
 
@@ -48,8 +48,6 @@ private TARepo TARepo;
         return TARepo.findAll();
     }
 
-
-    //this function does NOT play nice if fields are left null. Ensure users are not allowed to submit nothing.
     @Override
     public TA update(Long id, TA TADetail) {
         TA TA = getById(id);
