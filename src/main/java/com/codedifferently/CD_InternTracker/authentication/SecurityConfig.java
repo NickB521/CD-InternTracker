@@ -19,20 +19,18 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
 
     private final AuthFilter authFilter;
-    private TAServiceImpl TAService;
+    private final TAServiceImpl TAService;
 
     public SecurityConfig(AuthFilter authFilter, TAServiceImpl TAService) {
         this.authFilter = authFilter;
         this.TAService = TAService;  // only used to seed users, removable later
     }
-
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -53,23 +51,26 @@ public class SecurityConfig {
 
         return http.build();
     }
+
     @Bean
     public UserDetailsService userDetailsService() {
         return new InMemoryUserDetailsManager();
     }
+
     @PostConstruct
     public void seedAdminUser() {
+        // Assuming the TA class constructor is updated as shown below
+        TA adminUser = new TA("admin123", "admin@example.com", "1234567890", "Michael Womer", true, true);
+        TAService.create(adminUser);
+        System.out.println("Test admin seeded");
+        System.out.println("email: admin@example.com");
+        System.out.println("password: admin123");
+    }
 
-            TA adminUser = new TA("admin123", "admin@example.com", "1234567890", "Michael Womer", "NA", true, true);
-            TAService.create(adminUser);
-            System.out.println("Test admin seeded");
-            System.out.println("email: admin@example.com");
-            System.out.println("password: admin123");
-        }
     @PostConstruct
     public void seedUser() {
-
-        TA user = new TA("user123", "user@example.com", "1234567890", "Michael Womer", "NA", false, true);
+        // Assuming the TA class constructor is updated as shown below
+        TA user = new TA("user123", "user@example.com", "1234567890", "Michael Womer", false, true);
         TAService.create(user);
         System.out.println("Test user seeded");
         System.out.println("email: user@example.com");
@@ -78,7 +79,6 @@ public class SecurityConfig {
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(List.of("http://localhost:5173"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
