@@ -16,37 +16,56 @@ import java.util.List;
 @Table(name = "app_user")
 public class TA {
 
-
-
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
-
-@NonNull
-private String password;
-
-@NonNull
+    private Long id;
+    private String name;
     private String email;
-
-@NonNull
+    private String password;
     private String phoneNumber;
 
-@NonNull
-    private String name;
+    // Getter and Setter for id
+    public Long getId() {
+        return id;
+    }
 
-@NonNull
-    private String createdBy;
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-@NonNull
-    private boolean isAdmin;
+    // Getter and Setter for name
+    public String getName() {
+        return name;
+    }
 
-@NonNull
-    private boolean isTA;
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    @ElementCollection
-    private List<Intern> internList;
+    // Getter and Setter for email
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
+    // Getter and Setter for password
+    public String getPassword() {
+        return password;
+    }
 
-//need to implement the list of interns into this file.
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    // Getter and Setter for phone number
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
 }
+
+
