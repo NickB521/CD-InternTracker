@@ -31,7 +31,7 @@ class UserControllerTests {
         MockitoAnnotations.openMocks(this);
     }
 
-@Test
+    @Test
 //test ensures create function works correctly on normal circumstances
     void testCreate_TADoesNotExist() throws ResourceCreationException {
         TA TA = new TA();
@@ -40,11 +40,12 @@ class UserControllerTests {
         when(TARepository.findByEmail(TA.getEmail())).thenReturn(Optional.empty());
         when(TARepository.save(TA)).thenReturn(TA);
 
-       TA createdTA = TAService.create(TA);
+        TA createdTA = TAService.create(TA);
 
         assertNotNull(createdTA);
         verify(TARepository, times(1)).save(TA);
     }
+
     @Test
     void testCreate_TAAlreadyExists() {
         TA TA = new TA();
@@ -55,6 +56,7 @@ class UserControllerTests {
         assertThrows(ResourceCreationException.class, () -> TAService.create(TA));
         verify(TARepository, never()).save(any());
     }
+
     @Test
     void testGetAll() {
         List<TA> TAList = new ArrayList<>();
@@ -83,11 +85,14 @@ class UserControllerTests {
     }
 
 
-    @Test void testGetById_NotFound() {
-         when(TARepository.findById(anyLong())).thenReturn(Optional.empty());
-           assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!" );
-          assertThrows(ResourceNotFoundException.class, () -> TAService.getById(99L), "Expected getById() to throw, but it didn't!" );
-            verify(TARepository, times(1)).findById(1L); verify(TARepository, times(1)).findById(99L); }
+    @Test
+    void testGetById_NotFound() {
+        when(TARepository.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!");
+        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(99L), "Expected getById() to throw, but it didn't!");
+        verify(TARepository, times(1)).findById(1L);
+        verify(TARepository, times(1)).findById(99L);
+    }
 
     @Test
     void testUpdate() {
@@ -119,9 +124,10 @@ class UserControllerTests {
         doNothing().when(TARepository).deleteById(1L);
 
         TAService.delete(1L);
-        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!" );
+        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!");
         verify(TARepository, times(1)).findById(1L);
     }
+
     @Test
     void testDelete_NotFound() {
         when(TARepository.findById(1L)).thenReturn(Optional.empty());
@@ -131,6 +137,34 @@ class UserControllerTests {
     }
 
 
+    @Test
+    void testGetByEmail_Found() {
+        // Arrange
+        TA TA = new TA();
+        TA.setEmail("test@example.com");
 
-    //create tests for:  get by email
+        // Mock the repository to return the TA object when findByEmail is called
+        when(TARepository.findByEmail(TA.getEmail())).thenReturn(Optional.of(TA));
+
+        // Act
+        TA result = TAService.getByEmail(TA.getEmail());
+
+        // Assert
+        assertEquals(TA, result);
+        verify(TARepository, times(1)).findByEmail(TA.getEmail());
+    }
+
+    @Test
+    void testGetByEmail_NotFound() {
+        // Arrange
+        String email = "nonexistent@example.com";
+
+        // Mock the repository to return an empty Optional for a non-existing email
+        when(TARepository.findByEmail(email)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        assertThrows(ResourceNotFoundException.class, () -> TAService.getByEmail(email),
+                "Expected getByEmail() to throw, but it didn't!");
+        verify(TARepository, times(1)).findByEmail(email);
+    }
 }
