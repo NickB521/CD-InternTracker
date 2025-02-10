@@ -64,7 +64,7 @@ public class SecurityConfig {
         TAService.create(adminUser);
         System.out.println("Test admin seeded");
         System.out.println("email: admin@example.com");
-        System.out.println("password: admin123");
+        System.out.println("password: 1234567890");
     }
 
     @PostConstruct
@@ -74,7 +74,7 @@ public class SecurityConfig {
         TAService.create(user);
         System.out.println("Test user seeded");
         System.out.println("email: user@example.com");
-        System.out.println("password: user123");
+        System.out.println("password: 1234567890");
     }
 
     @Bean
