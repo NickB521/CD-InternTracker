@@ -28,4 +28,13 @@ public class TA {
 
     private boolean isAdmin;
     private boolean isTA;
+
+    public TA(String name, String email, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.isAdmin = isAdmin;
+        this.isTA = isTA;
+    }
 }
