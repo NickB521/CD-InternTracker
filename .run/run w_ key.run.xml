@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="run w/ key" type="Application" factoryName="Application">
+    <envs>
+      <env name="jwt.secret" value="ee2d9def6d19c7874dc008437706ecde13dca749b4a9d3c4d62a5812d58f5286 " />
+    </envs>
+    <option name="MAIN_CLASS_NAME" value="com.codedifferently.CD_InternTracker.CdInternTrackerApplication" />
+    <module name="CD-InternTracker" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
