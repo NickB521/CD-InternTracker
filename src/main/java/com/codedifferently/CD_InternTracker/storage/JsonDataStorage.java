@@ -19,4 +19,30 @@ public class JsonDataStorage {
         ensureStorageExists();
     }
 
+    private static void ensureStorageExists() {
+        try {
+            File file = new File(FILE_PATH);
+            File folder = file.getParentFile();
+
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            if (!file.exists()) {
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, getDefaultData());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Map<String, List<?>> loadData() {
+        try {
+            File file = new File(FILE_PATH);
+            return objectMapper.readValue(file, new TypeReference<Map<String, List<?>>>() {});
+        } catch (IOException e) {
+            e.printStackTrace();
+            return getDefaultData();
+        }
+    }
 }
