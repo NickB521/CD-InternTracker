@@ -12,6 +12,7 @@ public class TA {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private String name;
     private String email;
     private Long id;
@@ -39,6 +40,8 @@ public class TA {
 =======
 =======
 >>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
     private String email;
     private String name;
     private String subject;
@@ -56,6 +59,9 @@ public class TA {
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
@@ -65,6 +71,7 @@ public class TA {
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     public Long getId() {
         return id;
     }
@@ -72,6 +79,8 @@ public class TA {
     public void setId(Long id) {
         this.id = id;
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     public String getName() {
@@ -89,6 +98,9 @@ public class TA {
     public void setSubject(String subject) {
         this.subject = subject;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
