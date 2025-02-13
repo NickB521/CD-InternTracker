@@ -11,6 +11,7 @@ import lombok.*;
 public class TA {
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     private String name;
     private String email;
     private Long id;
@@ -36,6 +37,8 @@ public class TA {
     }
 
 =======
+=======
+>>>>>>> Stashed changes
     private String email;
     private String name;
     private String subject;
@@ -52,11 +55,15 @@ public class TA {
         return email;
     }
 
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     public void setEmail(String email) {
         this.email = email;
     }
 
+<<<<<<< Updated upstream
 <<<<<<< Updated upstream
     public Long getId() {
         return id;
@@ -65,6 +72,8 @@ public class TA {
     public void setId(Long id) {
         this.id = id;
 =======
+=======
+>>>>>>> Stashed changes
     public String getName() {
         return name;
     }
@@ -79,6 +88,9 @@ public class TA {
 
     public void setSubject(String subject) {
         this.subject = subject;
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
 >>>>>>> Stashed changes
     }
 }
