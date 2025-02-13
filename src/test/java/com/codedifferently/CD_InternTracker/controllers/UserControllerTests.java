@@ -1,170 +1,113 @@
 package com.codedifferently.CD_InternTracker.controllers;
 
-import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
-import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
-import com.codedifferently.CD_InternTracker.models.TA;
-import com.codedifferently.CD_InternTracker.repos.TARepo;
-import com.codedifferently.CD_InternTracker.services.TAServiceImpl;
+import com.codedifferently.CD_InternTracker.models.User;
+import com.codedifferently.CD_InternTracker.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-class UserControllerTests {
+import java.util.Collections;
+
+class UserControllerTest {
 
     @Mock
-    private TARepo TARepository;
+    private UserService userService;
 
     @InjectMocks
-    private TAServiceImpl TAService;
+    private UserController userController;
+
+    private MockMvc mockMvc;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
     }
 
     @Test
-//test ensures create function works correctly on normal circumstances
-    void testCreate_TADoesNotExist() throws ResourceCreationException {
-        TA TA = new TA();
-        TA.setEmail("test@example.com");
+    void testGetAllUsers() throws Exception {
+        // Instantiate User using Lombok-generated constructor
+        User user = new User("password123", "john.doe@example.com", "1234567890", "John", true, false);
+        when(userService.getAll()).thenReturn(Collections.singletonList(user));
 
-        when(TARepository.findByEmail(TA.getEmail())).thenReturn(Optional.empty());
-        when(TARepository.save(TA)).thenReturn(TA);
-
-        TA createdTA = TAService.create(TA);
-
-        assertNotNull(createdTA);
-        verify(TARepository, times(1)).save(TA);
+        mockMvc.perform(get("/api/user"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].password").value("password123"))
+                .andExpect(jsonPath("$[0].email").value("john.doe@example.com"))
+                .andExpect(jsonPath("$[0].phoneNumber").value("1234567890"))
+                .andExpect(jsonPath("$[0].name").value("John"))
+                .andExpect(jsonPath("$[0].isAdmin").value(true))
+                .andExpect(jsonPath("$[0].isTA").value(false));
     }
 
     @Test
-    void testCreate_TAAlreadyExists() {
-        TA TA = new TA();
-        TA.setEmail("test@example.com");
+    void testCreateUser() throws Exception {
+        // Instantiate User using Lombok-generated constructor
+        User user = new User("password123", "jane.doe@example.com", "0987654321", "Jane", true, true);
+        when(userService.create(any(User.class))).thenReturn(user);
 
-        when(TARepository.findByEmail(TA.getEmail())).thenReturn(Optional.of(TA));
-
-        assertThrows(ResourceCreationException.class, () -> TAService.create(TA));
-        verify(TARepository, never()).save(any());
+        mockMvc.perform(post("/api/user")
+                        .contentType("application/json")
+                        .content("{\"password\":\"password123\",\"email\":\"jane.doe@example.com\",\"phoneNumber\":\"0987654321\",\"name\":\"Jane\",\"isAdmin\":true,\"isTA\":true}"))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.password").value("password123"))
+                .andExpect(jsonPath("$.email").value("jane.doe@example.com"))
+                .andExpect(jsonPath("$.phoneNumber").value("0987654321"))
+                .andExpect(jsonPath("$.name").value("Jane"))
+                .andExpect(jsonPath("$.isAdmin").value(true))
+                .andExpect(jsonPath("$.isTA").value(true));
     }
 
     @Test
-    void testGetAll() {
-        List<TA> TAList = new ArrayList<>();
-        TAList.add(new TA());
-        TAList.add(new TA());
+    void testGetUserById() throws Exception {
+        // Instantiate User using Lombok-generated constructor
+        User user = new User("password123", "john.doe@example.com", "1234567890", "John", true, false);
+        when(userService.getById(1L)).thenReturn(user);
 
-        when(TARepository.findAll()).thenReturn(TAList);
-
-        List<TA> result = TAService.getAll();
-
-        assertEquals(2, result.size());
-        verify(TARepository, times(1)).findAll();
+        mockMvc.perform(get("/api/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.password").value("password123"))
+                .andExpect(jsonPath("$.email").value("john.doe@example.com"))
+                .andExpect(jsonPath("$.phoneNumber").value("1234567890"))
+                .andExpect(jsonPath("$.name").value("John"))
+                .andExpect(jsonPath("$.isAdmin").value(true))
+                .andExpect(jsonPath("$.isTA").value(false));
     }
 
     @Test
-    void testGetById_Found() {
-        TA TA = new TA();
-        TA.setId(1L);
+    void testUpdateUser() throws Exception {
+        // Instantiate User using Lombok-generated constructor
+        User existingUser = new User("password123", "john.doe@example.com", "1234567890", "John", true, false);
+        User updatedUser = new User("newpassword123", "johnny.doe@example.com", "0987654321", "Johnny", true, true);
+        when(userService.update(1L, updatedUser)).thenReturn(updatedUser);
 
-        when(TARepository.findById(1L)).thenReturn(Optional.of(TA));
-
-        var result = TAService.getById(1L);
-
-        assertEquals(TA, result);
-        verify(TARepository, times(1)).findById(1L);
-    }
-
-
-    @Test
-    void testGetById_NotFound() {
-        when(TARepository.findById(anyLong())).thenReturn(Optional.empty());
-        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!");
-        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(99L), "Expected getById() to throw, but it didn't!");
-        verify(TARepository, times(1)).findById(1L);
-        verify(TARepository, times(1)).findById(99L);
+        mockMvc.perform(put("/api/user/1")
+                        .contentType("application/json")
+                        .content("{\"password\":\"newpassword123\",\"email\":\"johnny.doe@example.com\",\"phoneNumber\":\"0987654321\",\"name\":\"Johnny\",\"isAdmin\":true,\"isTA\":true}"))
+                .andExpect(status().isAccepted())
+                .andExpect(jsonPath("$.password").value("newpassword123"))
+                .andExpect(jsonPath("$.email").value("johnny.doe@example.com"))
+                .andExpect(jsonPath("$.phoneNumber").value("0987654321"))
+                .andExpect(jsonPath("$.name").value("Johnny"))
+                .andExpect(jsonPath("$.isAdmin").value(true))
+                .andExpect(jsonPath("$.isTA").value(true));
     }
 
     @Test
-    void testUpdate() {
-        TA existingTA = new TA();
-        existingTA.setId(1L);
+    void testDeleteUser() throws Exception {
+        doNothing().when(userService).delete(1L);
 
-        TA updatedTA = new TA();
-        updatedTA.setName("Updated Name");
-        updatedTA.setPassword("Pass2");
-        updatedTA.setEmail("email@2.com");
-        updatedTA.setPhoneNumber("302-111-1111");
+        mockMvc.perform(delete("/api/user/1"))
+                .andExpect(status().isNoContent());
 
-        when(TARepository.findById(1L)).thenReturn(Optional.of(existingTA));
-        when(TARepository.save(existingTA)).thenReturn(existingTA);
-
-        TA result = TAService.update(1L, updatedTA);
-
-        assertEquals("Updated Name", result.getName());
-        verify(TARepository, times(1)).save(existingTA);
-    }
-
-    @Test
-    void testDelete_Found() {
-        TA TA1 = new TA();
-        TA1.setId(1L);
-
-
-        when(TARepository.findById(1L)).thenReturn(Optional.of(TA1));
-        doNothing().when(TARepository).deleteById(1L);
-
-        TAService.delete(1L);
-        assertThrows(ResourceNotFoundException.class, () -> TAService.getById(1L), "Expected getById() to throw, but it didn't!");
-        verify(TARepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void testDelete_NotFound() {
-        when(TARepository.findById(1L)).thenReturn(Optional.empty());
-
-
-        verify(TARepository, never()).deleteById(1L);
-    }
-
-
-    @Test
-    void testGetByEmail_Found() {
-        // Arrange
-        TA TA = new TA();
-        TA.setEmail("test@example.com");
-
-        // Mock the repository to return the TA object when findByEmail is called
-        when(TARepository.findByEmail(TA.getEmail())).thenReturn(Optional.of(TA));
-
-        // Act
-        TA result = TAService.getByEmail(TA.getEmail());
-
-        // Assert
-        assertEquals(TA, result);
-        verify(TARepository, times(1)).findByEmail(TA.getEmail());
-    }
-
-    @Test
-    void testGetByEmail_NotFound() {
-        // Arrange
-        String email = "nonexistent@example.com";
-
-        // Mock the repository to return an empty Optional for a non-existing email
-        when(TARepository.findByEmail(email)).thenReturn(Optional.empty());
-
-        // Act & Assert
-        assertThrows(ResourceNotFoundException.class, () -> TAService.getByEmail(email),
-                "Expected getByEmail() to throw, but it didn't!");
-        verify(TARepository, times(1)).findByEmail(email);
+        verify(userService, times(1)).delete(1L);
     }
 }
