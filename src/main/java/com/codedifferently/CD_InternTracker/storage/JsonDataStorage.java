@@ -45,4 +45,20 @@ public class JsonDataStorage {
             return getDefaultData();
         }
     }
+
+    public static void saveData(List<Intern> interns, List<TA> tas) {
+        try {
+            Map<String, List<?>> data = Map.of("interns", interns, "TAs", tas);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), data);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Map<String, List<?>> getDefaultData() {
+        Map<String, List<?>> defaultData = new HashMap<>();
+        defaultData.put("interns", new ArrayList<>());
+        defaultData.put("TAs", new ArrayList<>());
+        return defaultData;
+    }
 }
