@@ -10,6 +10,7 @@ import lombok.*;
 @Data
 public class TA {
 
+<<<<<<< Updated upstream
     private String name;
     private String email;
     private Long id;
@@ -34,15 +35,50 @@ public class TA {
         return email;
     }
 
+=======
+    private String email;
+    private String name;
+    private String subject;
+
+    // Constructor, getters, and setters
+
+    public TA(String email, String name, String subject) {
+        this.email = email;
+        this.name = name;
+        this.subject = subject;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+>>>>>>> Stashed changes
     public void setEmail(String email) {
         this.email = email;
     }
 
+<<<<<<< Updated upstream
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+=======
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+>>>>>>> Stashed changes
     }
 }
