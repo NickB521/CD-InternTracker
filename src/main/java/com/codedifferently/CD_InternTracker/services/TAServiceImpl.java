@@ -5,6 +5,7 @@ import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException
 import com.codedifferently.CD_InternTracker.models.TA;
 import com.codedifferently.CD_InternTracker.repos.TARepo;
 import org.springframework.stereotype.Service;
+import com.codedifferently.CD_InternTracker.services.TAService;
 
 
 import java.util.List;
