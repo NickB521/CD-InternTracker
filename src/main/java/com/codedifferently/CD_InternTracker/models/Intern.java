@@ -43,4 +43,8 @@ public class Intern {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }    
 }
