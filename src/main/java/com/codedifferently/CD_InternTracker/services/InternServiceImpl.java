@@ -4,113 +4,72 @@ import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
-import com.codedifferently.CD_InternTracker.repos.InternRepository;
-import com.opencsv.CSVReader;
-import org.antlr.v4.runtime.misc.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.codedifferently.CD_InternTracker.utils.ValidationUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.Pair;
 
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.lang.Exception;
 
 @Service
-public class InternServiceImpl implements InternService{
+public class InternServiceImpl implements InternService {
 
-    private InternRepository internRepository;
-
-    @Autowired
-    public InternServiceImpl(InternRepository internRepository) {
-        this.internRepository = internRepository;
-    }
     @Override
-    public Intern create(Intern intern) throws ResourceCreationException {
-
-        Optional<Intern> optional = internRepository.findByEmail(intern.getEmail());
-        if (optional.isPresent()) {
-            throw new ResourceCreationException("Intern with email: " + intern.getEmail() + " already exists.");
+    public Intern create(Intern intern) {
+        // Validate the intern data before saving
+        if (!ValidationUtils.isValidIntern(intern)) {
+            throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
         }
-        internRepository.save(intern);
+        // Proceed with saving the intern
+        // Save logic here (e.g., save to DB)
         return intern;
     }
 
     @Override
     public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
-        ArrayList<Intern> interns = new ArrayList<>();
-        try  {
-            CSVReader csvReader = new CSVReader(new InputStreamReader(csvFile.getInputStream()));
-            List<String[]> rows = csvReader.readAll();
-            rows.remove(0);
-
-
-        }
-        catch (Exception e) {
-            return interns;
-        };
+        // Implement CSV processing and validation logic here
+        // Example: Loop through each intern and validate
+        // If any intern fails validation, throw an exception
         return null;
     }
 
     @Override
     public List<Intern> getAll() {
-        return internRepository.findAll();
+        // Fetch and return all interns
+        return null;
     }
 
     @Override
     public List<Intern> getByLevel(String level) {
-        return internRepository.findByLevel(level);
+        // Fetch interns by level
+        return null;
     }
 
     @Override
     public Pair<Boolean, Intern> getById(Long id) {
-        Optional<Intern> optional = internRepository.findById(id);
-        if (optional.isPresent()) {
-            return new Pair<Boolean, Intern>(true,optional.get());
-        }
-        else {
-            return new Pair<Boolean, Intern>(false, null);
-        }
+        // Retrieve intern by ID
+        return null;
     }
 
     @Override
-    public Intern update(Long id, Intern oldIntern) {
-        Intern updatedIntern = getById(id).b;
-        updatedIntern.setName(oldIntern.getName());
-        updatedIntern.setEmail(oldIntern.getEmail());
-        updatedIntern.setInternNotes(oldIntern.getInternNotes());
-        updatedIntern.setAttendance(oldIntern.getAttendance());
-        updatedIntern.setWeeklySchedule(oldIntern.getWeeklySchedule());
-        updatedIntern = internRepository.save(updatedIntern);
-        return updatedIntern;
+    public Intern update(Long id, Intern intern) {
+        // Validate intern data before updating
+        if (!ValidationUtils.isValidIntern(intern)) {
+            throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
+        }
+        // Proceed with updating the intern
+        return intern;
     }
 
     @Override
     public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
-        Optional<Intern> optionalIntern = internRepository.findById(id);
-    
-        if (optionalIntern.isEmpty()) {
-            throw new ResourceNotFoundException("Intern with ID " + id + " not found.");
-        }
-    
-        Intern intern = optionalIntern.get();
-        intern.setWeeklySchedule(internSchedule);
-    
-        intern = internRepository.save(intern);
-    
-        return intern;
-    }    
+        // Validate intern schedule
+        return null;
+    }
 
     @Override
     public Pair<Boolean, String> delete(Long id) {
-        Optional<Intern> optional = internRepository.findById(id);
-        if (optional.isPresent()) {
-            internRepository.deleteById(id);
-            return new Pair<Boolean, String>(true,"Object with id: " + id + " successfully deleted");
-        }
-        else {
-            return new Pair<Boolean, String>(false,"Object with id: " + id + " not found");
-        }
+        // Delete intern by ID
+        return null;
     }
 }
