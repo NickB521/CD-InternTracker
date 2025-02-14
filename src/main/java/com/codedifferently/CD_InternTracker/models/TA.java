@@ -16,6 +16,13 @@ public class TA {
     private String name;
     private boolean isActive;
     private boolean isAdmin;
+    private String password;  // Assuming there's a field for password
+
+    // Other fields and methods
+
+    public String getPassword() {
+        return password;
+    }
 
     // Constructor with new fields
     public TA(String username, String email, String name, boolean isActive, boolean isAdmin) {
