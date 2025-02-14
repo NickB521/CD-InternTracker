@@ -1,9 +1,6 @@
 package com.codedifferently.CD_InternTracker.models;
 
 import jakarta.persistence.*;
-import org.springframework.lang.NonNull;
-
-import java.util.List;
 
 @Entity
 public class Intern {
@@ -19,7 +16,7 @@ public class Intern {
         this.id = id;
     }
 
-    // Getters and setters (if needed)
+    // Getters and setters
     public String getName() {
         return name;
     }
@@ -40,11 +37,8 @@ public class Intern {
         return id;
     }
 
+    // You can remove the duplicate setId method
     public void setId(Long id) {
         this.id = id;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }    
 }
