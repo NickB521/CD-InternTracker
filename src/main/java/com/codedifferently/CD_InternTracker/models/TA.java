@@ -10,11 +10,14 @@ import lombok.*;
 @Data
 public class TA {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String email;
     private String name;
     private String subject;
 
-    // Constructor, getters, and setters
 
     public TA(String email, String name, String subject) {
         this.email = email;
