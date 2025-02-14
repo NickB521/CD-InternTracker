@@ -10,22 +10,39 @@ import lombok.*;
 @Data
 public class TA {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false, unique = true)
     private String email;
+    private String name;
+    private String subject;
 
-    @Column(nullable = false)
-    private String password;
+    // Constructor, getters, and setters
 
-    @Column(nullable = false)
-    private String phoneNumber;
+    public TA(String email, String name, String subject) {
+        this.email = email;
+        this.name = name;
+        this.subject = subject;
+    }
 
-    private boolean isAdmin;
-    private boolean isTA;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 }
