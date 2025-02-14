@@ -11,43 +11,67 @@ import lombok.*;
 public class TA {
 
     private Long id;
-    private String name;
+    private String username;
     private String email;
+    private String name;
+    private boolean isActive;
+    private boolean isAdmin;
 
-    // Constructor
-    public TA(Long id, String name, String email) {
-        this.id = id;
-        this.name = name;
+    // Constructor with new fields
+    public TA(String username, String email, String name, boolean isActive, boolean isAdmin) {
+        this.username = username;
         this.email = email;
+        this.name = name;
+        this.isActive = isActive;
+        this.isAdmin = isAdmin;
     }
 
-    // Getter for id
+    // Getters and setters for all fields
     public Long getId() {
         return id;
     }
 
-    // Getter for name
-    public String getName() {
-        return name;
-    }
-
-    // Getter for email
-    public String getEmail() {
-        return email;
-    }
-
-    // Setter for id
     public void setId(Long id) {
         this.id = id;
     }
 
-    // Setter for name
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    // Setter for email
-    public void setEmail(String email) {
-        this.email = email;
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
     }
 }
