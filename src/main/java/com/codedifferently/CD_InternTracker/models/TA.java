@@ -3,10 +3,11 @@ package com.codedifferently.CD_InternTracker.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+
 @Entity
 @Table(name = "app_user")
 @NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Data
 public class TA {
 
@@ -14,38 +15,25 @@ public class TA {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
+    private String password;
+
+    @NonNull
     private String email;
+
+    @NonNull
+    private String phoneNumber;
+
+    @NonNull
     private String name;
-    private String subject;
+
+    @NonNull
+    private boolean isAdmin;
+
+    @NonNull
+    private boolean isTA;
 
 
-    public TA(String email, String name, String subject) {
-        this.email = email;
-        this.name = name;
-        this.subject = subject;
-    }
 
-    public String getEmail() {
-        return email;
-    }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
 }
