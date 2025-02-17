@@ -1,5 +1,5 @@
 package com.codedifferently.CD_InternTracker.utils;
-
+import com.codedifferently.CD_InternTracker.models.Intern;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 public class ValidationUtils {
@@ -17,6 +17,7 @@ public class ValidationUtils {
 
     // Method to validate required fields for Intern (ID as Long)
     public static boolean areRequiredFieldsValid(String email, String name, Long id) {
-        return isNotNullOrEmpty(name) && isNotNullOrEmpty(email) && id != null;
-    }
+        return isNotNullOrEmpty(name) && isNotNullOrEmpty(email) && id != null;}
+
+
 }
