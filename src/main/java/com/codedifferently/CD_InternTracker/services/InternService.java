@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public interface InternService {
-
 
     // Create a new Intern with validation
     default Intern create(Intern intern) {
@@ -101,8 +99,5 @@ public interface InternService {
     private Intern updateIntern(Long id, Intern intern) {
         // Update logic for an existing intern
         return intern;  // This would normally update the database record
-
-
     }
 }
-
