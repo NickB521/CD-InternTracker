@@ -25,6 +25,9 @@ public class TA {
         this.subject = subject;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getEmail() {
         return email;
     }
