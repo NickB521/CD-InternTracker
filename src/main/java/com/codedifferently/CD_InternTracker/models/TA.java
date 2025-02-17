@@ -48,4 +48,8 @@ public class TA {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
+    public Long getId() {
+        return id;
+    }
 }
