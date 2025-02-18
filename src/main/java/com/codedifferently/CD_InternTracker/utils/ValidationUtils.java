@@ -19,4 +19,11 @@ public class ValidationUtils {
     public static boolean areRequiredFieldsValid(String email, String name, Long id) {
         return isNotNullOrEmpty(name) && isNotNullOrEmpty(email) && id != null;
     }
+
+    public static boolean isValidIntern(Intern intern) {
+        if (intern == null) {
+            return false;
+        }
+        return false;
+    }
 }
