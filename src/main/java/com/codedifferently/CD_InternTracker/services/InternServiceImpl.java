@@ -4,15 +4,31 @@ import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
+import com.codedifferently.CD_InternTracker.storage.JsonDataStorage;
 import com.codedifferently.CD_InternTracker.utils.ValidationUtils;
 import org.springframework.stereotype.Service;
 import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InternServiceImpl implements InternService {
+
+    private List<Intern> interns;
+
+    public InternServiceImpl() {
+        loadData();
+    }
+
+    private void loadData() {
+        interns = (List<Intern>) JsonDataStorage.loadData().get("interns");
+    }
+
+    private void saveData() {
+        JsonDataStorage.saveData(interns, null);
+    }
 
     @Override
     public Intern create(Intern intern) {
@@ -20,23 +36,31 @@ public class InternServiceImpl implements InternService {
         if (!ValidationUtils.isValidIntern(intern)) {
             throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
         }
-        // Proceed with saving the intern
-        // Save logic here (e.g., save to DB)
+
+        // Check if intern with the same email already exists
+        Optional<Intern> existingIntern = interns.stream()
+                .filter(i -> i.getEmail().equals(intern.getEmail()))
+                .findFirst();
+
+        if (existingIntern.isPresent()) {
+            throw new ResourceCreationException("Intern with email exists: " + intern.getEmail());
+        }
+
+        // Add intern and save
+        interns.add(intern);
+        saveData();
         return intern;
     }
 
     @Override
     public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
         // Implement CSV processing and validation logic here
-        // Example: Loop through each intern and validate
-        // If any intern fails validation, throw an exception
         return null;
     }
 
     @Override
     public List<Intern> getAll() {
-        // Fetch and return all interns
-        return null;
+        return interns;
     }
 
     @Override
@@ -47,8 +71,11 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public Pair<Boolean, Intern> getById(Long id) {
-        // Retrieve intern by ID
-        return null;
+        Intern intern = interns.stream()
+                .filter(i -> i.getId().equals(id))
+                .findFirst()
+                .orElse(null);
+        return new Pair<>(intern != null, intern);
     }
 
     @Override
@@ -57,19 +84,40 @@ public class InternServiceImpl implements InternService {
         if (!ValidationUtils.isValidIntern(intern)) {
             throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
         }
-        // Proceed with updating the intern
-        return intern;
+
+        // Find and update intern
+        Intern existingIntern = interns.stream()
+                .filter(i -> i.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("No intern found with ID: " + id));
+
+        existingIntern.setName(intern.getName());
+        existingIntern.setEmail(intern.getEmail());
+        existingIntern.setInternNotes(intern.getInternNotes());
+        existingIntern.setAttendance(intern.getAttendance());
+        existingIntern.setWeeklySchedule(intern.getWeeklySchedule());
+
+        saveData();
+        return existingIntern;
     }
 
     @Override
     public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
-        // Validate intern schedule
-        return null;
+        // Find and update intern's schedule
+        Intern intern = interns.stream()
+                .filter(i -> i.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("No intern found with ID: " + id));
+
+        intern.setWeeklySchedule(internSchedule);
+        saveData();
+        return intern;
     }
 
     @Override
     public Pair<Boolean, String> delete(Long id) {
-        // Delete intern by ID
-        return null;
+        boolean removed = interns.removeIf(intern -> intern.getId().equals(id));
+        saveData();
+        return new Pair<>(removed, removed ? "Intern deleted successfully" : "Intern not found");
     }
 }
