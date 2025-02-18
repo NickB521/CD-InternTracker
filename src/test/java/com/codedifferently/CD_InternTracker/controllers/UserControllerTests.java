@@ -1,7 +1,7 @@
 package com.codedifferently.CD_InternTracker.controllers;
 
-import com.codedifferently.CD_InternTracker.models.User;
-import com.codedifferently.CD_InternTracker.services.UserService;
+import com.codedifferently.CD_InternTracker.models.TA;
+import com.codedifferently.CD_InternTracker.services.TAService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -20,7 +20,7 @@ import java.util.Collections;
 class UserControllerTest {
 
     @Mock
-    private UserService userService;
+    private TAService taService;
 
     @InjectMocks
     private UserController userController;
@@ -34,9 +34,9 @@ class UserControllerTest {
 
     @Test
     void testGetAllUsers() throws Exception {
-        // Instantiate User using Lombok-generated constructor
-        User user = new User("password123", "john.doe@example.com", "1234567890", "John", true, false);
-        when(userService.getAll()).thenReturn(Collections.singletonList(user));
+        // Instantiate TA using Lombok-generated constructor
+        TA ta = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
+        when(taService.getAll()).thenReturn(Collections.singletonList(ta));
 
         mockMvc.perform(get("/api/user"))
                 .andExpect(status().isOk())
@@ -51,9 +51,8 @@ class UserControllerTest {
     @Test
     void testCreateUser() throws Exception {
         // Instantiate User using Lombok-generated constructor
-        User user = new User("password123", "jane.doe@example.com", "0987654321", "Jane", true, true);
-        when(userService.create(any(User.class))).thenReturn(user);
-
+        TA ta = new TA("password123", "jane.doe@example.com", "0987654321", "Jane", true, true);
+        when(taService.create(any(TA.class))).thenReturn(ta);
         mockMvc.perform(post("/api/user")
                         .contentType("application/json")
                         .content("{\"password\":\"password123\",\"email\":\"jane.doe@example.com\",\"phoneNumber\":\"0987654321\",\"name\":\"Jane\",\"isAdmin\":true,\"isTA\":true}"))
@@ -69,8 +68,8 @@ class UserControllerTest {
     @Test
     void testGetUserById() throws Exception {
         // Instantiate User using Lombok-generated constructor
-        User user = new User("password123", "john.doe@example.com", "1234567890", "John", true, false);
-        when(userService.getById(1L)).thenReturn(user);
+        TA ta = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
+        when(taService.getById(1L)).thenReturn(ta);
 
         mockMvc.perform(get("/api/user/1"))
                 .andExpect(status().isOk())
@@ -85,9 +84,9 @@ class UserControllerTest {
     @Test
     void testUpdateUser() throws Exception {
         // Instantiate User using Lombok-generated constructor
-        User existingUser = new User("password123", "john.doe@example.com", "1234567890", "John", true, false);
-        User updatedUser = new User("newpassword123", "johnny.doe@example.com", "0987654321", "Johnny", true, true);
-        when(userService.update(1L, updatedUser)).thenReturn(updatedUser);
+        TA existingTA = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
+        TA updatedTA = new TA("newpassword123", "johnny.doe@example.com", "0987654321", "Johnny", true, true);
+        when(taService.update(1L, updatedTA)).thenReturn(updatedTA);
 
         mockMvc.perform(put("/api/user/1")
                         .contentType("application/json")
@@ -103,11 +102,11 @@ class UserControllerTest {
 
     @Test
     void testDeleteUser() throws Exception {
-        doNothing().when(userService).delete(1L);
+        doNothing().when(taService).delete(1L);
 
         mockMvc.perform(delete("/api/user/1"))
                 .andExpect(status().isNoContent());
 
-        verify(userService, times(1)).delete(1L);
+        verify(taService, times(1)).delete(1L);
     }
 }

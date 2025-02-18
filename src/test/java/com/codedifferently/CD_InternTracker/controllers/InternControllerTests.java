@@ -42,7 +42,7 @@ class InternControllerTests {
 
     @Test
     void testGetAll() throws Exception {
-        List<Intern> interns = Arrays.asList(new Intern(), new Intern());
+        List<Intern> interns = Arrays.asList(new Intern("John", "Doe", 1L), new Intern("Jane", "Smith", 2L));
         when(internService.getAll()).thenReturn(interns);
 
         mockMvc.perform(get("/api/intern"))
@@ -55,7 +55,7 @@ class InternControllerTests {
     @Test
     void testGetById() throws Exception {
         Long id = 1L;
-        Intern intern = new Intern();
+        Intern intern = new Intern("John", "Doe", id);
         when(internService.getById(id)).thenReturn(new Pair<>(true, intern));
 
         mockMvc.perform(get("/api/intern/id").param("id", id.toString()))
@@ -78,7 +78,7 @@ class InternControllerTests {
     @Test
     void testUpdate() throws Exception {
         Long id = 1L;
-        Intern internDetail = new Intern();
+        Intern internDetail = new Intern("John", "Doe", id);
         when(internService.update(eq(id), any(Intern.class))).thenReturn(internDetail);
 
         mockMvc.perform(put("/api/intern/{id}", id)
@@ -93,7 +93,7 @@ class InternControllerTests {
     void testUpdateInternSchedule() throws Exception {
         Long id = 1L;
         List<DailySchedule> schedule = Collections.emptyList();
-        Intern updatedIntern = new Intern();
+        Intern updatedIntern = new Intern("John", "Doe", id);
         when(internService.updateInternSchedule(id, schedule)).thenReturn(updatedIntern);
 
         mockMvc.perform(put("/api/intern/schedule/{id}", id)
@@ -106,7 +106,7 @@ class InternControllerTests {
 
     @Test
     void testCreate() throws Exception {
-        Intern intern = new Intern();
+        Intern intern = new Intern("John", "Doe", 1L);
         when(internService.create(any(Intern.class))).thenReturn(intern);
 
         mockMvc.perform(post("/api/intern")
@@ -120,7 +120,7 @@ class InternControllerTests {
     @Test
     void testCreateByCSV() throws Exception {
         MockMultipartFile csvFile = new MockMultipartFile("csvFile", "test.csv", "text/csv", "data".getBytes());
-        List<Intern> interns = Arrays.asList(new Intern(), new Intern());
+        List<Intern> interns = Arrays.asList(new Intern("John", "Doe", 1L), new Intern("Jane", "Smith", 2L));
         when(internService.createByCSV(any())).thenReturn(interns);
 
         mockMvc.perform(multipart("/api/intern/csv").file(csvFile))

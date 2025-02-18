@@ -16,7 +16,6 @@ import java.util.List;
 
 public interface InternService {
 
-
     // Create a new Intern with validation
     default Intern create(Intern intern) {
         // Validate intern fields before saving
@@ -102,4 +101,3 @@ public interface InternService {
         return intern;  // This would normally update the database record
     }
 }
-

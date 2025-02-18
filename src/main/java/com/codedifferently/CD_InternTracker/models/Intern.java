@@ -1,25 +1,31 @@
 package com.codedifferently.CD_InternTracker.models;
 
 import jakarta.persistence.*;
-import org.springframework.lang.NonNull;
-
-import java.util.List;
 
 @Entity
 public class Intern {
 
+    private Long id;
     private String name;
     private String email;
-    private Long id;
+    private String level; // assuming this is another field you might want
 
-    // Constructor to initialize Intern with name, email, and id
+    // Constructor
     public Intern(String name, String email, Long id) {
         this.name = name;
         this.email = email;
         this.id = id;
     }
 
-    // Getters and setters (if needed)
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -36,15 +42,12 @@ public class Intern {
         this.email = email;
     }
 
-    public Long getId() {
-        return id;
+    // Optionally, you can add setters for level if necessary
+    public String getLevel() {
+        return level;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setLevel(String level) {
+        this.level = level;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }    
 }

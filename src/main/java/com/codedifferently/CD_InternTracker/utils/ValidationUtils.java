@@ -1,7 +1,7 @@
 package com.codedifferently.CD_InternTracker.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import com.codedifferently.CD_InternTracker.models.Intern;
+
 public class ValidationUtils {
 
     // Method to validate email format

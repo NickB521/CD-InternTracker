@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.misc.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -21,15 +22,16 @@ public class InternController {
     private InternService internService;
 
     @Autowired
-    private InternController(InternService internService) {
+    public InternController(InternService internService) {
         this.internService = internService;
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public ResponseEntity<List<Intern>> getAll () {
         List<Intern> interns = internService.getAll();
         return new ResponseEntity<>(interns, HttpStatus.OK);
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("id")
     public ResponseEntity<Intern> getById (@RequestParam("id") Long id) {
         Pair<Boolean, Intern> result = internService.getById(id);
@@ -41,25 +43,26 @@ public class InternController {
             return new ResponseEntity<>(result.b, HttpStatus.NOT_FOUND);
         }
     }
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("{id}")
     public ResponseEntity<Intern> update(@PathVariable("id") Long id, @RequestBody Intern internDetail){
         internDetail = internService.update(id, internDetail);
         return new ResponseEntity<>(internDetail, HttpStatus.ACCEPTED);
     }
 
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/schedule/{id}")
     public ResponseEntity<Intern> updateInternSchedule(@PathVariable Long id, @RequestBody List<DailySchedule> internSchedule) throws ResourceNotFoundException {
         Intern updatedIntern = internService.updateInternSchedule(id, internSchedule);
         return new ResponseEntity<>(updatedIntern, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Intern> create (@RequestBody Intern intern) {
         Intern saved = internService.create(intern);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("csv")
     public ResponseEntity<List<Intern>> createByCSV(@RequestParam MultipartFile csvFile) {
         List<Intern> result = new ArrayList<Intern>();
@@ -71,7 +74,7 @@ public class InternController {
         System.out.println(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete")
     public ResponseEntity<String> delete(@RequestParam("id") Long id) {
         Pair<Boolean, String> result = internService.delete(id);
