@@ -17,17 +17,25 @@ public class TA {
     private String email;
     private String name;
     private String subject;
+    private String password;
+    private String phoneNumber;
+    private boolean isAdmin;
+    private boolean isTA;
 
-
-    public TA(String email, String name, String subject) {
+    public TA(String email, String name, String subject, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
         this.email = email;
         this.name = name;
         this.subject = subject;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.isAdmin = isAdmin;
+        this.isTA = isTA;
     }
 
     public Long getId() {
         return id;
     }
+
     public String getEmail() {
         return email;
     }
@@ -50,5 +58,37 @@ public class TA {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public boolean isAdmin() {
+        return isAdmin;
+    }
+
+    public void setAdmin(boolean admin) {
+        isAdmin = admin;
+    }
+
+    public boolean isTA() {
+        return isTA;
+    }
+
+    public void setTA(boolean TA) {
+        isTA = TA;
     }
 }
