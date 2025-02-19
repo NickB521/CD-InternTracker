@@ -1,14 +1,16 @@
 package com.codedifferently.CD_InternTracker.models;
 
-import jakarta.persistence.*;
+import java.util.List;
 
-@Entity
 public class Intern {
 
     private Long id;
     private String name;
     private String email;
-    private String level; // assuming this is another field you might want
+    private String level;
+    private List<DailySchedule> weeklySchedule;
+    private String internNotes;
+    private List<String> attendance;
 
     // Constructor
     public Intern(String name, String email, Long id) {
@@ -42,12 +44,35 @@ public class Intern {
         this.email = email;
     }
 
-    // Optionally, you can add setters for level if necessary
     public String getLevel() {
         return level;
     }
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public List<DailySchedule> getWeeklySchedule() {
+        return weeklySchedule;
+    }
+
+    public void setWeeklySchedule(List<DailySchedule> weeklySchedule) {
+        this.weeklySchedule = weeklySchedule;
+    }
+
+    public String getInternNotes() {
+        return internNotes;
+    }
+
+    public void setInternNotes(String internNotes) {
+        this.internNotes = internNotes;
+    }
+
+    public List<String> getAttendance() {
+        return attendance;
+    }
+
+    public void setAttendance(List<String> attendance) {
+        this.attendance = attendance;
     }
 }

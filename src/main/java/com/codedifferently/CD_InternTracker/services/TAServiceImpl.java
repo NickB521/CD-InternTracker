@@ -3,72 +3,79 @@ package com.codedifferently.CD_InternTracker.services;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.TA;
-import com.codedifferently.CD_InternTracker.repos.TARepo;
+import com.codedifferently.CD_InternTracker.storage.JsonDataStorage;
 import org.springframework.stereotype.Service;
-import com.codedifferently.CD_InternTracker.services.TAService;
-
 
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class TAServiceImpl implements TAService {
-private TARepo TARepo;
+    
+    private List<TA> TAs;
 
-    public TAServiceImpl(TARepo TARepo) {
-        this.TARepo = TARepo;
+    public TAServiceImpl() {
+        loadData();
+    }
+
+    private void loadData() {
+        TAs = (List<TA>) JsonDataStorage.loadData().get("TAs");
+    }
+
+    private void saveData() {
+        JsonDataStorage.saveData(null, TAs);
     }
 
     @Override
-    public TA create(TA TA) throws ResourceCreationException {
-        Optional<TA> optional = TARepo.findByEmail(TA.getEmail());
-        if(optional.isPresent()){
-            throw new ResourceCreationException("User with email exists: " + TA.getEmail());
+    public TA create(TA ta) throws ResourceCreationException {
+        Optional<TA> optional = TAs.stream()
+                .filter(existingTA -> existingTA.getEmail().equals(ta.getEmail()))
+                .findFirst();
+        if (optional.isPresent()) {
+            throw new ResourceCreationException("User with email exists: " + ta.getEmail());
         }
-       TA = TARepo.save(TA);
-        return TA;
+        TAs.add(ta);
+        saveData();
+        return ta;
     }
 
     @Override
     public TA getById(Long id) throws ResourceNotFoundException {
-        TA TA = TARepo.findById(id)
-                .orElseThrow(()->new ResourceNotFoundException("No user with id: " + id));
-        return TA;
+        return TAs.stream()
+                .filter(ta -> ta.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("No user with id: " + id));
     }
 
     @Override
     public TA getByEmail(String email) throws ResourceNotFoundException {
-       TA TA = TARepo.findByEmail(email)
-                .orElseThrow(()->new ResourceNotFoundException("No user with email: " + email));
-        return TA;
+        return TAs.stream()
+                .filter(ta -> ta.getEmail().equals(email))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("No user with email: " + email));
     }
 
     @Override
     public List<TA> getAll() {
-        return TARepo.findAll();
+        return TAs;
     }
 
     @Override
     public TA update(Long id, TA TADetail) {
-        TA TA = getById(id);
-        TA.setPassword(TADetail.getPassword());
-        TA.setEmail(TADetail.getEmail());
-        TA.setPhoneNumber(TADetail.getPhoneNumber());
-        TA.setName(TADetail.getName());
-        TA.setAdmin(TADetail.isAdmin());
-        TA.setTA(TADetail.isTA());
-        TA = TARepo.save(TA);
-        return TA;
-
-
+        TA existingTA = getById(id);
+        existingTA.setPassword(TADetail.getPassword());
+        existingTA.setEmail(TADetail.getEmail());
+        existingTA.setPhoneNumber(TADetail.getPhoneNumber());
+        existingTA.setName(TADetail.getName());
+        existingTA.setAdmin(TADetail.isAdmin());
+        existingTA.setTA(TADetail.isTA());
+        saveData();
+        return existingTA;
     }
 
     @Override
     public void delete(Long id) {
-        TA TA = getById(id);
-        TARepo.delete(TA);
+        TAs.removeIf(ta -> ta.getId().equals(id));
+        saveData();
     }
-
-
 }
