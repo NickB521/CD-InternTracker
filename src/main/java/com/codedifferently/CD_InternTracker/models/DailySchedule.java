@@ -4,8 +4,17 @@ package com.codedifferently.CD_InternTracker.models;
 import jakarta.persistence.Embeddable;
 import org.springframework.lang.NonNull;
 
-@Embeddable
+@Entity
+@Access(AccessType.FIELD)
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class DailySchedule {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @NonNull
     private String weekDay;
@@ -58,8 +67,7 @@ public class DailySchedule {
     @Override
     public String toString() {
         return "DailySchedule{" +
-                //"id=" + id +                              // Haider: This was giving me issues when testing the CRUD requests. Uncomment later.
-                ", weekDay='" + weekDay + '\'' +
+                "weekDay='" + weekDay + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
                 '}';
