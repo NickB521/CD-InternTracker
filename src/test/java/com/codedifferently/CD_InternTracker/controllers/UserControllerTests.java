@@ -34,7 +34,7 @@ class UserControllerTest {
 
     @Test
     void testGetAllUsers() throws Exception {
-        // Instantiate TA using Lombok-generated constructor
+        // Instantiate TA using the correct constructor
         TA ta = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
         when(taService.getAll()).thenReturn(Collections.singletonList(ta));
 
@@ -50,9 +50,10 @@ class UserControllerTest {
 
     @Test
     void testCreateUser() throws Exception {
-        // Instantiate User using Lombok-generated constructor
+        // Instantiate TA using the correct constructor
         TA ta = new TA("password123", "jane.doe@example.com", "0987654321", "Jane", true, true);
         when(taService.create(any(TA.class))).thenReturn(ta);
+
         mockMvc.perform(post("/api/user")
                         .contentType("application/json")
                         .content("{\"password\":\"password123\",\"email\":\"jane.doe@example.com\",\"phoneNumber\":\"0987654321\",\"name\":\"Jane\",\"isAdmin\":true,\"isTA\":true}"))
@@ -67,7 +68,7 @@ class UserControllerTest {
 
     @Test
     void testGetUserById() throws Exception {
-        // Instantiate User using Lombok-generated constructor
+        // Instantiate TA using the correct constructor
         TA ta = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
         when(taService.getById(1L)).thenReturn(ta);
 
@@ -83,7 +84,7 @@ class UserControllerTest {
 
     @Test
     void testUpdateUser() throws Exception {
-        // Instantiate User using Lombok-generated constructor
+        // Instantiate TA using the correct constructor
         TA existingTA = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
         TA updatedTA = new TA("newpassword123", "johnny.doe@example.com", "0987654321", "Johnny", true, true);
         when(taService.update(1L, updatedTA)).thenReturn(updatedTA);
