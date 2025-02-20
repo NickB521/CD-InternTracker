@@ -57,25 +57,7 @@ public class SecurityConfig {
         return new InMemoryUserDetailsManager();
     }
 
-    @PostConstruct
-    public void seedAdminUser() {
-        // Seeding an admin user with role "admin"
-        TA adminUser = new TA("admin123", "admin@example.com", "0123456789", "Michael Womer", "admin", true, true);
-        TAService.create(adminUser);
-        System.out.println("Test admin seeded");
-        System.out.println("email: admin@example.com");
-        System.out.println("password: 1234567890");
-    }
 
-    @PostConstruct
-    public void seedUser() {
-        // Seeding a regular user with role "user"
-        TA user = new TA("user123", "user@example.com", "0123456890", "Michael Womer", "user", false, true);
-        TAService.create(user);
-        System.out.println("Test user seeded");
-        System.out.println("email: user@example.com");
-        System.out.println("password: 1234567890");
-    }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
