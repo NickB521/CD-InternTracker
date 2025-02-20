@@ -1,16 +1,20 @@
 package com.codedifferently.CD_InternTracker.services;
 
-import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.storage.JsonDataStorage;
 import com.codedifferently.CD_InternTracker.utils.ValidationUtils;
-import org.springframework.stereotype.Service;
+import com.opencsv.CSVReader;
 import org.antlr.v4.runtime.misc.Pair;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -23,30 +27,28 @@ public class InternServiceImpl implements InternService {
     }
 
     private void loadData() {
-        interns = (List<Intern>) JsonDataStorage.loadData().get("interns");
+        Map<String, List<?>> data = JsonDataStorage.loadData();
+        this.interns = (List<Intern>) data.get("interns");
     }
 
     private void saveData() {
-        JsonDataStorage.saveData(interns, null);
+        JsonDataStorage.saveData(this.interns, null);
     }
 
     @Override
     public Intern create(Intern intern) {
-        // Validate the intern data before saving
-        if (!ValidationUtils.isValidIntern(intern)) {
-            throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
+        if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
+            throw new IllegalArgumentException("Invalid Intern data: Please check the email, name, or ID fields.");
         }
 
-        // Check if intern with the same email already exists
         Optional<Intern> existingIntern = interns.stream()
                 .filter(i -> i.getEmail().equals(intern.getEmail()))
                 .findFirst();
 
         if (existingIntern.isPresent()) {
-            throw new ResourceCreationException("Intern with email exists: " + intern.getEmail());
+            throw new IllegalArgumentException("Intern with email already exists: " + intern.getEmail());
         }
 
-        // Add intern and save
         interns.add(intern);
         saveData();
         return intern;
@@ -54,8 +56,33 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
-        // Implement CSV processing and validation logic here
-        return null;
+        List<Intern> parsedInterns = new ArrayList<>();
+
+        try (CSVReader reader = new CSVReader(new InputStreamReader(csvFile.getInputStream()))) {
+            String[] nextLine;
+            while ((nextLine = reader.readNext()) != null) {
+                if (nextLine.length < 3) continue;
+
+                String name = nextLine[0];
+                String email = nextLine[1];
+                Long id = Long.parseLong(nextLine[2]);
+
+                Intern intern = new Intern(name, email, id);
+                parsedInterns.add(intern);
+            }
+        } catch (IOException e) {
+            throw new IOException("Error parsing CSV file", e);
+        }
+
+        for (Intern intern : parsedInterns) {
+            if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
+                throw new IllegalArgumentException("Invalid Intern data in CSV.");
+            }
+        }
+
+        interns.addAll(parsedInterns);
+        saveData();
+        return parsedInterns;
     }
 
     @Override
@@ -65,8 +92,14 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public List<Intern> getByLevel(String level) {
-        // Fetch interns by level
-        return null;
+        // Assuming Intern class has a 'level' field
+        List<Intern> filteredInterns = new ArrayList<>();
+        for (Intern intern : interns) {
+            if (intern.getLevel().equalsIgnoreCase(level)) {
+                filteredInterns.add(intern);
+            }
+        }
+        return filteredInterns;
     }
 
     @Override
@@ -80,12 +113,10 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public Intern update(Long id, Intern intern) {
-        // Validate intern data before updating
-        if (!ValidationUtils.isValidIntern(intern)) {
-            throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
+        if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
+            throw new IllegalArgumentException("Invalid Intern data: Please check the email, name, or ID fields.");
         }
 
-        // Find and update intern
         Intern existingIntern = interns.stream()
                 .filter(i -> i.getId().equals(id))
                 .findFirst()
@@ -102,8 +133,7 @@ public class InternServiceImpl implements InternService {
     }
 
     @Override
-    public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
-        // Find and update intern's schedule
+    public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) {
         Intern intern = interns.stream()
                 .filter(i -> i.getId().equals(id))
                 .findFirst()
