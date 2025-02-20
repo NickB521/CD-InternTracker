@@ -60,21 +60,25 @@ public class SecurityConfig {
     @PostConstruct
     public void seedAdminUser() {
         // Assuming the TA class constructor is updated as shown below
-        TA adminUser = new TA("admin123", "admin@example.com", "0123456789", "Michael Womer", true, true);
+        TA adminUser = new TA("admin@example.com", "Michael Womer",
+                "", "admin123", "0123456789",
+                true, true);
         TAService.create(adminUser);
         System.out.println("Test admin seeded");
         System.out.println("email: admin@example.com");
-        System.out.println("password: 1234567890");
+        System.out.println("password: admin123");
     }
 
     @PostConstruct
     public void seedUser() {
         // Assuming the TA class constructor is updated as shown below
-        TA user = new TA("user123", "user@example.com", "0123456890", "Michael Womer", false, true);
+        TA user = new TA("user@example.com", "Michael Womer",
+                "", "user123", "0123456789",
+                true, true);
         TAService.create(user);
         System.out.println("Test user seeded");
         System.out.println("email: user@example.com");
-        System.out.println("password: 1234567890");
+        System.out.println("password: user123");
     }
 
     @Bean
