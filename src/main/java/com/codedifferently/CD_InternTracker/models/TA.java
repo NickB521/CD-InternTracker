@@ -19,6 +19,7 @@ public class TA {
     private String subject;
     private String password;
     private String phoneNumber;
+    private String role; // Added role field
     private boolean isAdmin;
     private boolean isTA;
 
@@ -28,6 +29,7 @@ public class TA {
         this.subject = subject;
         this.password = password;
         this.phoneNumber = phoneNumber;
+        this.role = role;  // Initialize role
         this.isAdmin = isAdmin;
         this.isTA = isTA;
     }
@@ -66,6 +68,14 @@ public class TA {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getPhoneNumber() {
