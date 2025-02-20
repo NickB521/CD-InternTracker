@@ -59,8 +59,8 @@ public class SecurityConfig {
 
     @PostConstruct
     public void seedAdminUser() {
-        // Assuming the TA class constructor is updated as shown below
-        TA adminUser = new TA("admin123", "admin@example.com", "0123456789", "Michael Womer", true, true);
+        // Seeding an admin user with role "admin"
+        TA adminUser = new TA("admin123", "admin@example.com", "0123456789", "Michael Womer", "admin", true, true);
         TAService.create(adminUser);
         System.out.println("Test admin seeded");
         System.out.println("email: admin@example.com");
@@ -69,8 +69,8 @@ public class SecurityConfig {
 
     @PostConstruct
     public void seedUser() {
-        // Assuming the TA class constructor is updated as shown below
-        TA user = new TA("user123", "user@example.com", "0123456890", "Michael Womer", false, true);
+        // Seeding a regular user with role "user"
+        TA user = new TA("user123", "user@example.com", "0123456890", "Michael Womer", "user", false, true);
         TAService.create(user);
         System.out.println("Test user seeded");
         System.out.println("email: user@example.com");
