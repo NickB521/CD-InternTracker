@@ -59,7 +59,7 @@ public class SecurityConfig {
 
     @PostConstruct
     public void seedAdminUser() {
-        // Seeding an admin user with role "admin"
+        // Assuming the TA class constructor is updated as shown below
         TA adminUser = new TA("admin123", "admin@example.com", "0123456789", "Michael Womer", true, true);
         TAService.create(adminUser);
         System.out.println("Test admin seeded");
@@ -69,7 +69,7 @@ public class SecurityConfig {
 
     @PostConstruct
     public void seedUser() {
-        // Seeding a regular user with role "user"
+        // Assuming the TA class constructor is updated as shown below
         TA user = new TA("user123", "user@example.com", "0123456890", "Michael Womer", false, true);
         TAService.create(user);
         System.out.println("Test user seeded");
