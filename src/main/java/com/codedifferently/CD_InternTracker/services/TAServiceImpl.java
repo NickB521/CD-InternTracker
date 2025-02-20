@@ -6,12 +6,14 @@ import com.codedifferently.CD_InternTracker.models.TA;
 import com.codedifferently.CD_InternTracker.storage.JsonDataStorage;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
 public class TAServiceImpl implements TAService {
-    
+
     private List<TA> TAs;
 
     public TAServiceImpl() {
@@ -19,11 +21,12 @@ public class TAServiceImpl implements TAService {
     }
 
     private void loadData() {
-        TAs = (List<TA>) JsonDataStorage.loadData().get("TAs");
+        Map<String, List<?>> data = JsonDataStorage.loadData();
+        this.TAs = (List<TA>) data.get("TAs");
     }
 
     private void saveData() {
-        JsonDataStorage.saveData(null, TAs);
+        JsonDataStorage.saveData(null, this.TAs);
     }
 
     @Override
