@@ -1,10 +1,13 @@
 package com.codedifferently.CD_InternTracker.services;
 
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
+import com.codedifferently.CD_InternTracker.logging.LoggingConfig;
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.opencsv.CSVReader;
 import org.antlr.v4.runtime.misc.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.multipart.MultipartFile;
 import com.codedifferently.CD_InternTracker.utils.ValidationUtils;
 
@@ -22,9 +25,9 @@ public interface InternService {
         if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
             throw new IllegalArgumentException("Invalid Intern data: Please check the email, name, or ID fields.");
         }
-
         // Proceed with the save operation
         return saveIntern(intern);
+
     }
 
     // Create multiple Interns from a CSV file

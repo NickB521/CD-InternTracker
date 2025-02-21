@@ -9,6 +9,6 @@ public class LoggingConfig {
             = LoggerFactory.getLogger(LoggingConfig.class);
 
     public static void main(String[] args) {
-        logger.info("Example log from {}", LoggingConfig.class.getSimpleName());
+        logger.info("{} was used", LoggingConfig.class.getSimpleName());
     }
 }
