@@ -22,12 +22,15 @@ public class TA {
     private boolean isAdmin;
     private boolean isTA;
 
-    public TA(String email, String name, String subject, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
-        this.email = email;
-        this.name = name;
-        this.subject = subject;
+    // No-argument constructor
+    public TA() {}
+
+    // Add this constructor
+    public TA(String password, String email, String phoneNumber, String name, boolean isAdmin, boolean isTA) {
         this.password = password;
+        this.email = email;
         this.phoneNumber = phoneNumber;
+        this.name = name;
         this.isAdmin = isAdmin;
         this.isTA = isTA;
     }
