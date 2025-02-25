@@ -23,7 +23,8 @@ public class TA {
     private boolean isTA;
 
     // No-argument constructor
-    public TA() {}
+    public TA() {
+    }
 
     // Add this constructor
     public TA(String password, String email, String phoneNumber, String name, boolean isAdmin, boolean isTA) {
@@ -34,4 +35,18 @@ public class TA {
         this.isAdmin = isAdmin;
         this.isTA = isTA;
     }
+
+    // Getter methods for id, name, and email
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
 }
+
