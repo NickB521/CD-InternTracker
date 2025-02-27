@@ -8,7 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -22,6 +24,7 @@ public class TAServiceImpl implements TAService {
     }
 
     private void loadData() {
+
         TAs = (List<TA>) JsonDataStorage.loadData().get("TAs");
         logger.info("TA data loaded successfully.");
     }
@@ -29,6 +32,14 @@ public class TAServiceImpl implements TAService {
     private void saveData() {
         JsonDataStorage.saveData(null, TAs);
         logger.info("TA data saved successfully.");
+
+        Map<String, List<?>> data = JsonDataStorage.loadData();
+        this.TAs = (List<TA>) data.get("TAs");
+    }
+
+    private void saveData() {
+        JsonDataStorage.saveData(null, this.TAs);
+
     }
 
     @Override

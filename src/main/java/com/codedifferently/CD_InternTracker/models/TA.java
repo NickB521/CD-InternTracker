@@ -6,42 +6,37 @@ import lombok.*;
 @Entity
 @Table(name = "app_user")
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 public class TA {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String email;
     private String name;
-    private String subject;
+    private String email;
     private String password;
     private String phoneNumber;
     private boolean isAdmin;
     private boolean isTA;
 
-    public TA(String email, String name, String subject, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
-        this.email = email;
+    // Constructor
+    public TA(Long id, String name, String email, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
+        this.id = id;
         this.name = name;
-        this.subject = subject;
+        this.email = email;
         this.password = password;
         this.phoneNumber = phoneNumber;
         this.isAdmin = isAdmin;
         this.isTA = isTA;
     }
 
+    // Getter and Setter Methods for each property
     public Long getId() {
         return id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -52,12 +47,12 @@ public class TA {
         this.name = name;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getEmail() {
+        return email;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -80,15 +75,15 @@ public class TA {
         return isAdmin;
     }
 
-    public void setAdmin(boolean admin) {
-        isAdmin = admin;
+    public void setAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public boolean isTA() {
         return isTA;
     }
 
-    public void setTA(boolean TA) {
-        isTA = TA;
+    public void setTA(boolean isTA) {
+        this.isTA = isTA;
     }
 }

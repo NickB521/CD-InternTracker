@@ -19,6 +19,10 @@ public class Intern {
         this.id = id;
     }
 
+    // No-argument constructor for test purposes
+    public Intern() {
+        // Default constructor for creating empty instances
+    }
     // Getters and Setters
     public Long getId() {
         return id;

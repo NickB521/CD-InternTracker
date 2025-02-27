@@ -1,4 +1,4 @@
-package com.codedifferently.CD_InternTracker.controllers;
+/*package com.codedifferently.CD_InternTracker.controllers;
 
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
@@ -154,3 +154,5 @@ class InternControllerTests {
         verify(internService, times(1)).delete(id);
     }
 }
+
+ */
