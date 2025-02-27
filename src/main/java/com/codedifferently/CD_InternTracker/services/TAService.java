@@ -55,4 +55,12 @@ public interface TAService {
         // Update logic for an existing TA
         return ta;  // This would normally update the database record
     }
+    // New method to get the Weekly Schedule of a TA
+    public List<WeeklySchedule> getWeeklyScheduleByTAId(Long id) {
+        TA TA = getById(id);
+        if (TA != null) {
+            return TA.getWeeklySchedule(); // Assuming this field is populated in the TA entity
+        }
+        return null;
+    }
 }
