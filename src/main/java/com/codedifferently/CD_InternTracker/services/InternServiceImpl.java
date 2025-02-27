@@ -1,26 +1,18 @@
 package com.codedifferently.CD_InternTracker.services;
 
+import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.DailySchedule;
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.storage.JsonDataStorage;
 import com.codedifferently.CD_InternTracker.utils.ValidationUtils;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
-import com.opencsv.CSVReader;
-
 import org.antlr.v4.runtime.misc.Pair;
-import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 
@@ -35,7 +27,6 @@ public class InternServiceImpl implements InternService {
     }
 
     private void loadData() {
-
         interns = (List<Intern>) JsonDataStorage.loadData().get("interns");
         logger.info("Interns data loaded successfully.");
     }
@@ -43,44 +34,29 @@ public class InternServiceImpl implements InternService {
     private void saveData() {
         JsonDataStorage.saveData(interns, null);
         logger.info("Interns data saved successfully.");
-
-        Map<String, List<?>> data = JsonDataStorage.loadData();
-        this.interns = (List<Intern>) data.get("interns");
-    }
-
-    private void saveData() {
-        JsonDataStorage.saveData(this.interns, null);
-
     }
 
     @Override
     public Intern create(Intern intern) {
-
         logger.debug("Creating intern with email: {}", intern.getEmail());
 
         // Validate the intern data before saving
         if (!ValidationUtils.isValidIntern(intern)) {
             logger.error("Invalid intern data for email: {}", intern.getEmail());
             throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
-
-        if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
-            throw new IllegalArgumentException("Invalid Intern data: Please check the email, name, or ID fields.");
-
         }
 
+        // Check if intern with the same email already exists
         Optional<Intern> existingIntern = interns.stream()
                 .filter(i -> i.getEmail().equals(intern.getEmail()))
                 .findFirst();
 
         if (existingIntern.isPresent()) {
-
             logger.error("Intern with email {} already exists.", intern.getEmail());
             throw new ResourceCreationException("Intern with email exists: " + intern.getEmail());
-
-            throw new IllegalArgumentException("Intern with email already exists: " + intern.getEmail());
-
         }
 
+        // Add intern and save
         interns.add(intern);
         saveData();
         logger.info("Intern created successfully with email: {}", intern.getEmail());
@@ -89,39 +65,9 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
-
         // Implement CSV processing and validation logic here
         logger.info("Processing CSV file to create interns.");
         return null;
-
-        List<Intern> parsedInterns = new ArrayList<>();
-
-        try (CSVReader reader = new CSVReader(new InputStreamReader(csvFile.getInputStream()))) {
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                if (nextLine.length < 3) continue;
-
-                String name = nextLine[0];
-                String email = nextLine[1];
-                Long id = Long.parseLong(nextLine[2]);
-
-                Intern intern = new Intern(name, email, id);
-                parsedInterns.add(intern);
-            }
-        } catch (IOException e) {
-            throw new IOException("Error parsing CSV file", e);
-        }
-
-        for (Intern intern : parsedInterns) {
-            if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
-                throw new IllegalArgumentException("Invalid Intern data in CSV.");
-            }
-        }
-
-        interns.addAll(parsedInterns);
-        saveData();
-        return parsedInterns;
-
     }
 
     @Override
@@ -132,19 +78,8 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public List<Intern> getByLevel(String level) {
-
         logger.info("Fetching interns by level: {}", level);
         return null;
-
-        // Assuming Intern class has a 'level' field
-        List<Intern> filteredInterns = new ArrayList<>();
-        for (Intern intern : interns) {
-            if (intern.getLevel().equalsIgnoreCase(level)) {
-                filteredInterns.add(intern);
-            }
-        }
-        return filteredInterns;
-
     }
 
     @Override
@@ -159,19 +94,15 @@ public class InternServiceImpl implements InternService {
 
     @Override
     public Intern update(Long id, Intern intern) {
-
         logger.debug("Updating intern with ID: {}", id);
 
         // Validate intern data before updating
         if (!ValidationUtils.isValidIntern(intern)) {
             logger.error("Invalid intern data for ID: {}", id);
             throw new ResourceCreationException("Invalid intern data. Ensure email is valid and fields are not empty.");
-
-        if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
-            throw new IllegalArgumentException("Invalid Intern data: Please check the email, name, or ID fields.");
-
         }
 
+        // Find and update intern
         Intern existingIntern = interns.stream()
                 .filter(i -> i.getId().equals(id))
                 .findFirst()
@@ -189,14 +120,10 @@ public class InternServiceImpl implements InternService {
     }
 
     @Override
-
     public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) throws ResourceNotFoundException {
         logger.debug("Updating intern schedule for ID: {}", id);
 
         // Find and update intern's schedule
-
-    public Intern updateInternSchedule(Long id, List<DailySchedule> internSchedule) {
-
         Intern intern = interns.stream()
                 .filter(i -> i.getId().equals(id))
                 .findFirst()

@@ -1,4 +1,4 @@
-/*package com.codedifferently.CD_InternTracker.services;
+package com.codedifferently.CD_InternTracker.services;
 
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.models.Intern;
@@ -128,5 +128,3 @@ class InternServiceImplTests {
         verify(internRepository, never()).deleteById(1L);
     }
 }
-
- */
