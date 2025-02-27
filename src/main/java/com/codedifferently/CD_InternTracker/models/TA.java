@@ -19,6 +19,8 @@ public class TA {
     private String phoneNumber;
     private boolean isAdmin;
     private boolean isTA;
+    private List<WeeklySchedule> weeklySchedule; // Add weekly schedule as a list
+
 
     // Constructor
     public TA(Long id, String name, String email, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
@@ -87,4 +89,5 @@ public class TA {
     public void setTA(boolean isTA) {
         this.isTA = isTA;
     }
+
 }
