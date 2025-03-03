@@ -2,6 +2,7 @@ package com.codedifferently.CD_InternTracker.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.List;
 
 @Entity
 @Table(name = "app_user")
@@ -13,14 +14,18 @@ public class TA {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String email;
     private String password;
     private String phoneNumber;
     private boolean isAdmin;
     private boolean isTA;
-    private List<WeeklySchedule> weeklySchedule; // Add weekly schedule as a list
 
+    // One-to-many relationship with WeeklySchedule
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "ta_id")  // Foreign key in WeeklySchedule table
+    private List<WeeklySchedule> weeklySchedule;
 
     // Constructor
     public TA(Long id, String name, String email, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
@@ -32,6 +37,7 @@ public class TA {
         this.isAdmin = isAdmin;
         this.isTA = isTA;
     }
+
 
     // Getter and Setter Methods for each property
     public Long getId() {
