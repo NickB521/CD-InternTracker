@@ -7,9 +7,11 @@ import com.codedifferently.CD_InternTracker.models.WeeklySchedule;
 import com.codedifferently.CD_InternTracker.storage.JsonDataStorage;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 
 
 @Service
@@ -84,7 +86,6 @@ public class TAServiceImpl implements TAService {
         saveData();
     }
 
-    // New method to retrieve Weekly Schedule for a specific TA
     @Override
     public List<WeeklySchedule> getWeeklyScheduleByTAId(Long id) throws ResourceNotFoundException {
         TA ta = getById(id);
@@ -95,7 +96,6 @@ public class TAServiceImpl implements TAService {
         }
     }
 
-    // New method to add a Weekly Schedule to a specific TA
     @Override
     public void addWeeklySchedule(Long id, WeeklySchedule weeklySchedule) throws ResourceNotFoundException {
         TA ta = getById(id);
@@ -110,7 +110,6 @@ public class TAServiceImpl implements TAService {
         }
     }
 
-    // New method to remove a specific Weekly Schedule from a TA
     @Override
     public void removeWeeklySchedule(Long id, Long scheduleId) throws ResourceNotFoundException {
         TA ta = getById(id);
