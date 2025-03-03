@@ -4,14 +4,16 @@ import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.models.TA;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class JsonDataStorage {
-    private static final String FILE_PATH = "storage/JsonDataStorage.json";
+    private static final String FILE_PATH = "storage/JsonDataStorage.json"; 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     static {
@@ -19,51 +21,47 @@ public class JsonDataStorage {
     }
 
     private static void ensureStorageExists() {
-        File file = new File(FILE_PATH);
-        File folder = file.getParentFile();
+        try {
+            File file = new File(FILE_PATH);
+            File folder = file.getParentFile();
 
-        if (!folder.exists()) {
-            folder.mkdirs();
-        }
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
 
-        if (!file.exists()) {
-            saveData(new ArrayList<>(), new ArrayList<>());
+            if (!file.exists()) {
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, getDefaultData());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
     public static Map<String, List<?>> loadData() {
         try {
             File file = new File(FILE_PATH);
-            if (!file.exists()) {
-                return getDefaultData();
-            }
-
-            Map<String, Object> rawData = objectMapper.readValue(file, new TypeReference<Map<String, Object>>() {});
-
-            List<Intern> interns = objectMapper.convertValue(rawData.getOrDefault("interns", new ArrayList<>()), new TypeReference<List<Intern>>() {});
-            List<TA> tas = objectMapper.convertValue(rawData.getOrDefault("TAs", new ArrayList<>()), new TypeReference<List<TA>>() {});
-
-            Map<String, List<?>> data = new HashMap<>();
-            data.put("interns", interns);
-            data.put("TAs", tas);
-
-            return data;
+            return objectMapper.readValue(file, new TypeReference<Map<String, List<?>>>() {});
         } catch (IOException e) {
-            throw new RuntimeException("Error loading data from storage", e);
+            e.printStackTrace();
+            return getDefaultData();
         }
     }
 
     public static void saveData(List<Intern> interns, List<TA> tas) {
+ API-endpoint-to-fetch-TA-Weekly-schedules
         Map<String, List<?>> data = loadData();
 
         // Check that lists are not null
         data.put("interns", interns != null ? interns : new ArrayList<>());
         data.put("TAs", tas != null ? tas : new ArrayList<>());
 
+
+ dev
         try {
-            objectMapper.writeValue(new File(FILE_PATH), data);
+            Map<String, List<?>> data = Map.of("interns", interns, "TAs", tas);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), data);
         } catch (IOException e) {
-            throw new RuntimeException("Error saving data to file", e);
+            e.printStackTrace();
         }
     }
 

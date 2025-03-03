@@ -34,8 +34,8 @@ class UserControllerTest {
 
     @Test
     void testGetAllUsers() throws Exception {
-        // Instantiate TA with Long ID as the first argument
-        TA ta = new TA(1L, "password123", "john.doe@example.com", "1234567890", "John", true, false);
+        // Instantiate TA using Lombok-generated constructor
+        TA ta = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
         when(taService.getAll()).thenReturn(Collections.singletonList(ta));
 
         mockMvc.perform(get("/api/user"))
@@ -50,10 +50,9 @@ class UserControllerTest {
 
     @Test
     void testCreateUser() throws Exception {
-        // Instantiate TA with Long ID as the first argument
-        TA ta = new TA(1L, "password123", "jane.doe@example.com", "0987654321", "Jane", true, true);
+        // Instantiate User using Lombok-generated constructor
+        TA ta = new TA("password123", "jane.doe@example.com", "0987654321", "Jane", true, true);
         when(taService.create(any(TA.class))).thenReturn(ta);
-
         mockMvc.perform(post("/api/user")
                         .contentType("application/json")
                         .content("{\"password\":\"password123\",\"email\":\"jane.doe@example.com\",\"phoneNumber\":\"0987654321\",\"name\":\"Jane\",\"isAdmin\":true,\"isTA\":true}"))
@@ -68,8 +67,8 @@ class UserControllerTest {
 
     @Test
     void testGetUserById() throws Exception {
-        // Instantiate TA with Long ID as the first argument
-        TA ta = new TA(1L, "password123", "john.doe@example.com", "1234567890", "John", true, false);
+        // Instantiate User using Lombok-generated constructor
+        TA ta = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
         when(taService.getById(1L)).thenReturn(ta);
 
         mockMvc.perform(get("/api/user/1"))
@@ -84,9 +83,9 @@ class UserControllerTest {
 
     @Test
     void testUpdateUser() throws Exception {
-        // Instantiate TA with Long ID as the first argument
-        TA existingTA = new TA(1L, "password123", "john.doe@example.com", "1234567890", "John", true, false);
-        TA updatedTA = new TA(1L, "newpassword123", "johnny.doe@example.com", "0987654321", "Johnny", true, true);
+        // Instantiate User using Lombok-generated constructor
+        TA existingTA = new TA("password123", "john.doe@example.com", "1234567890", "John", true, false);
+        TA updatedTA = new TA("newpassword123", "johnny.doe@example.com", "0987654321", "Johnny", true, true);
         when(taService.update(1L, updatedTA)).thenReturn(updatedTA);
 
         mockMvc.perform(put("/api/user/1")

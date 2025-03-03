@@ -26,8 +26,14 @@ public class TAServiceImplTests {
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        // Using the parameterized constructor of TA
-        ta = new TA(1L, "test@example.com", "password123", "123-456-7890", "John Doe", false, true);
+        ta = new TA();
+        ta.setId(1L);  // Use setId instead of setld
+        ta.setEmail("test@example.com");
+        ta.setPassword("password123");
+        ta.setPhoneNumber("123-456-7890");
+        ta.setName("John Doe");
+        ta.setAdmin(false);
+        ta.setTA(true);
     }
 
     // Test create method
@@ -60,7 +66,7 @@ public class TAServiceImplTests {
         TA fetchedTA = taService.getById(1L);
 
         assertNotNull(fetchedTA);
-        assertEquals(1L, fetchedTA.getId());
+        assertEquals(1L, fetchedTA.getId());  // Use getId instead of getid
         assertEquals("test@example.com", fetchedTA.getEmail());
         verify(taRepo, times(1)).findById(1L);
     }
@@ -96,7 +102,14 @@ public class TAServiceImplTests {
     // Test update method
     @Test
     public void testUpdateTA_Success() {
-        TA updatedTA = new TA(1L, "newemail@example.com", "newpassword123", "987-654-3210", "John Updated", true, false);
+        TA updatedTA = new TA();
+        updatedTA.setId(1L);  // Use setId instead of setld
+        updatedTA.setEmail("newemail@example.com");
+        updatedTA.setPassword("newpassword123");
+        updatedTA.setPhoneNumber("987-654-3210");
+        updatedTA.setName("John Updated");
+        updatedTA.setAdmin(true);
+        updatedTA.setTA(false);
 
         when(taRepo.findById(1L)).thenReturn(Optional.of(ta));
         when(taRepo.save(any(TA.class))).thenReturn(updatedTA);
