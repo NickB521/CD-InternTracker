@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 public class JsonDataStorage {
     private static final String FILE_PATH = "storage/JsonDataStorage.json"; 
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -47,6 +48,15 @@ public class JsonDataStorage {
     }
 
     public static void saveData(List<Intern> interns, List<TA> tas) {
+ API-endpoint-to-fetch-TA-Weekly-schedules
+        Map<String, List<?>> data = loadData();
+
+        // Check that lists are not null
+        data.put("interns", interns != null ? interns : new ArrayList<>());
+        data.put("TAs", tas != null ? tas : new ArrayList<>());
+
+
+ dev
         try {
             Map<String, List<?>> data = Map.of("interns", interns, "TAs", tas);
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), data);

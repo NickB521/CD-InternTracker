@@ -3,13 +3,20 @@ package com.codedifferently.CD_InternTracker.services;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.TA;
+import com.codedifferently.CD_InternTracker.models.WeeklySchedule;
 import com.codedifferently.CD_InternTracker.storage.JsonDataStorage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+API-endpoint-to-fetch-TA-Weekly-schedules
+import java.util.ArrayList;
+
+ dev
 import java.util.List;
 import java.util.Optional;
+
+
 
 @Service
 public class TAServiceImpl implements TAService {
@@ -83,6 +90,7 @@ public class TAServiceImpl implements TAService {
         existingTA.setName(TADetail.getName());
         existingTA.setAdmin(TADetail.isAdmin());
         existingTA.setTA(TADetail.isTA());
+        existingTA.setWeeklySchedule(TADetail.getWeeklySchedule());  // Update weekly schedule
         saveData();
         logger.info("TA with ID {} updated successfully.", id);
         return existingTA;
@@ -94,5 +102,40 @@ public class TAServiceImpl implements TAService {
         TAs.removeIf(ta -> ta.getId().equals(id));
         saveData();
         logger.info("TA with ID {} deleted successfully.", id);
+    }
+
+    @Override
+    public List<WeeklySchedule> getWeeklyScheduleByTAId(Long id) throws ResourceNotFoundException {
+        TA ta = getById(id);
+        if (ta != null && ta.getWeeklySchedule() != null) {
+            return ta.getWeeklySchedule();
+        } else {
+            throw new ResourceNotFoundException("No weekly schedule found for TA with ID: " + id);
+        }
+    }
+
+    @Override
+    public void addWeeklySchedule(Long id, WeeklySchedule weeklySchedule) throws ResourceNotFoundException {
+        TA ta = getById(id);
+        if (ta != null) {
+            if (ta.getWeeklySchedule() == null) {
+                ta.setWeeklySchedule(new ArrayList<>());
+            }
+            ta.getWeeklySchedule().add(weeklySchedule);
+            saveData();
+        } else {
+            throw new ResourceNotFoundException("TA not found with ID: " + id);
+        }
+    }
+
+    @Override
+    public void removeWeeklySchedule(Long id, Long scheduleId) throws ResourceNotFoundException {
+        TA ta = getById(id);
+        if (ta != null && ta.getWeeklySchedule() != null) {
+            ta.getWeeklySchedule().removeIf(schedule -> schedule.getId().equals(scheduleId));
+            saveData();
+        } else {
+            throw new ResourceNotFoundException("No weekly schedule found for TA with ID: " + id);
+        }
     }
 }
