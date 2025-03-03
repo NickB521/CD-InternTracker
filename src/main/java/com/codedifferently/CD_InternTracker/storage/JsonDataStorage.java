@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
+
 public class JsonDataStorage {
     private static final String FILE_PATH = "storage/JsonDataStorage.json";
     private static final ObjectMapper objectMapper = new ObjectMapper();
@@ -55,6 +56,7 @@ public class JsonDataStorage {
     public static void saveData(List<Intern> interns, List<TA> tas) {
         Map<String, List<?>> data = loadData();
 
+        // Check that lists are not null
         data.put("interns", interns != null ? interns : new ArrayList<>());
         data.put("TAs", tas != null ? tas : new ArrayList<>());
 
