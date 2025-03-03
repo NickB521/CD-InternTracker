@@ -3,7 +3,8 @@ package com.codedifferently.CD_InternTracker.services;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceCreationException;
 import com.codedifferently.CD_InternTracker.exceptions.ResourceNotFoundException;
 import com.codedifferently.CD_InternTracker.models.TA;
-import com.codedifferently.CD_InternTracker.utils.ValidationUtils; // Import the ValidationUtils class
+import com.codedifferently.CD_InternTracker.models.WeeklySchedule;
+import com.codedifferently.CD_InternTracker.utils.ValidationUtils;
 
 import java.util.List;
 
@@ -46,21 +47,30 @@ public interface TAService {
 
     // Mock method for saving a single TA (for the sake of this example)
     private TA saveTA(TA ta) {
-        // Save logic for a single TA
-        return ta;  // This would normally save to a database
+        // Save logic for a single TA (In real-world, this would interact with a database)
+        return ta;
     }
 
     // Mock method for updating TA data
     private TA updateTA(Long id, TA ta) {
-        // Update logic for an existing TA
-        return ta;  // This would normally update the database record
+        // Update logic for an existing TA (In real-world, this would update a database record)
+        return ta;
     }
+
     // New method to get the Weekly Schedule of a TA
-    public List<WeeklySchedule> getWeeklyScheduleByTAId(Long id) {
+    public List<WeeklySchedule> getWeeklyScheduleByTAId(Long id) throws ResourceNotFoundException {
+        // Fetch the TA by ID
         TA TA = getById(id);
         if (TA != null) {
-            return TA.getWeeklySchedule(); // Assuming this field is populated in the TA entity
+            // Ensure that the weekly schedule is fetched
+            List<WeeklySchedule> weeklySchedule = TA.getWeeklySchedule();
+            if (weeklySchedule == null || weeklySchedule.isEmpty()) {
+                // Optional: you could throw an exception if no weekly schedule is found
+                throw new ResourceNotFoundException("No weekly schedule found for TA with ID: " + id);
+            }
+            return weeklySchedule; // Return the weekly schedule list
         }
-        return null;
+        // If no TA is found, throw an exception
+        throw new ResourceNotFoundException("TA with ID " + id + " not found.");
     }
 }
