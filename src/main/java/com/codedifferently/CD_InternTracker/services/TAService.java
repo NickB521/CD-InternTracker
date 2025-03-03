@@ -32,7 +32,7 @@ public interface TAService {
     List<TA> getAll();
 
     // Update an existing TA's details with validation
-    default TA update(Long id, TA taDetail) {
+    default TA update(Long id, TA taDetail) throws ResourceNotFoundException {
         // Validate TA fields before updating
         if (!ValidationUtils.areRequiredFieldsValid(taDetail.getEmail(), taDetail.getName(), taDetail.getId())) {
             throw new ResourceNotFoundException("Invalid TA data: Please check the email, name, or ID fields.");
@@ -45,6 +45,9 @@ public interface TAService {
     // Delete a TA by ID
     void delete(Long id);
 
+    // New method to get the Weekly Schedule of a TA
+    List<WeeklySchedule> getWeeklyScheduleByTAId(Long id) throws ResourceNotFoundException;
+
     // Mock method for saving a single TA (for the sake of this example)
     private TA saveTA(TA ta) {
         // Save logic for a single TA (In real-world, this would interact with a database)
@@ -55,22 +58,5 @@ public interface TAService {
     private TA updateTA(Long id, TA ta) {
         // Update logic for an existing TA (In real-world, this would update a database record)
         return ta;
-    }
-
-    // New method to get the Weekly Schedule of a TA
-    public List<WeeklySchedule> getWeeklyScheduleByTAId(Long id) throws ResourceNotFoundException {
-        // Fetch the TA by ID
-        TA TA = getById(id);
-        if (TA != null) {
-            // Ensure that the weekly schedule is fetched
-            List<WeeklySchedule> weeklySchedule = TA.getWeeklySchedule();
-            if (weeklySchedule == null || weeklySchedule.isEmpty()) {
-                // Optional: you could throw an exception if no weekly schedule is found
-                throw new ResourceNotFoundException("No weekly schedule found for TA with ID: " + id);
-            }
-            return weeklySchedule; // Return the weekly schedule list
-        }
-        // If no TA is found, throw an exception
-        throw new ResourceNotFoundException("TA with ID " + id + " not found.");
     }
 }
