@@ -3,6 +3,7 @@ package com.codedifferently.CD_InternTracker.controllers;
 import com.codedifferently.CD_InternTracker.models.TA;
 import com.codedifferently.CD_InternTracker.models.WeeklySchedule;
 import com.codedifferently.CD_InternTracker.services.TAService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,10 +66,15 @@ public class UserController {
 
     // New endpoint to get Weekly Schedule for a specific TA
     @GetMapping("{id}/weeklySchedule")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")  // Can be modified to allow other roles if needed
     public ResponseEntity<List<WeeklySchedule>> getWeeklySchedule(@PathVariable("id") Long id) {
         // Assuming the TAService has a method to retrieve the weekly schedule
         List<WeeklySchedule> schedule = TAService.getWeeklyScheduleByTAId(id);
+
+        if (schedule == null || schedule.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // Return 404 if no schedule found
+        }
+
         return new ResponseEntity<>(schedule, HttpStatus.OK);
     }
 }
