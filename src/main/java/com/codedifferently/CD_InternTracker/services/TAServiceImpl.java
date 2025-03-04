@@ -9,10 +9,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-API-endpoint-to-fetch-TA-Weekly-schedules
+
 import java.util.ArrayList;
 
- dev
+
 import java.util.List;
 import java.util.Optional;
 
