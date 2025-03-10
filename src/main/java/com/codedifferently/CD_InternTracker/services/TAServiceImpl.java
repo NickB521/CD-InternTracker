@@ -29,12 +29,12 @@ public class TAServiceImpl implements TAService {
     }
 
     private void loadData() {
-        TAs = (List<TA>) JsonDataStorage.loadData().get("TAs");
+        TAs = (List<TA>) JsonDataStorage.loadTAs();
         logger.info("TA data loaded successfully.");
     }
 
     private void saveData() {
-        JsonDataStorage.saveData(null, TAs);
+        JsonDataStorage.saveTAs(this.TAs);
         logger.info("TA data saved successfully.");
     }
 
