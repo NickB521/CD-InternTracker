@@ -1,5 +1,6 @@
 package com.codedifferently.CD_InternTracker.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
@@ -16,7 +17,11 @@ public class TA {
     private String subject;
     private String password;
     private String phoneNumber;
+    @JsonProperty("isAdmin")
+
     private boolean isAdmin;
+    @JsonProperty("isTA")
+
     private boolean isTA;
 
 
@@ -28,7 +33,7 @@ public class TA {
 
 
 
-    public TA(String email, String name, String subject, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
+    public TA(String email, String name, String subject, String password, String phoneNumber, boolean isAdmin, boolean isTA, List<WeeklySchedule> weeklySchedule) {
         this.email = email;
         this.name = name;
         this.subject = subject;
@@ -36,9 +41,11 @@ public class TA {
         this.phoneNumber = phoneNumber;
         this.isAdmin = isAdmin;
         this.isTA = isTA;
+        this.weeklySchedule = weeklySchedule;
     }
 
-
+    public TA() {
+    }
     // Getter and Setter Methods for each property
 
     public Long getId() {

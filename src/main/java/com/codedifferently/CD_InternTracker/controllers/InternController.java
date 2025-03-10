@@ -62,18 +62,18 @@ public class InternController {
         Intern saved = internService.create(intern);
         return new ResponseEntity<>(saved, HttpStatus.CREATED);
     }
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("csv")
-    public ResponseEntity<List<Intern>> createByCSV(@RequestParam MultipartFile csvFile) {
-        List<Intern> result = new ArrayList<Intern>();
-        try {
-            result = internService.createByCSV(csvFile);
-        } catch (Exception e) {
-            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        System.out.println(result);
-        return new ResponseEntity<>(result, HttpStatus.OK);
-    }
+//    @PreAuthorize("hasRole('ADMIN')")
+//    @PostMapping("csv")
+//    public ResponseEntity<List<Intern>> createByCSV(@RequestParam MultipartFile csvFile) {
+//        List<Intern> result = new ArrayList<Intern>();
+//        try {
+//            result = internService.createByCSV(csvFile);
+//        } catch (Exception e) {
+//            return new ResponseEntity<>(result, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        System.out.println(result);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete")
     public ResponseEntity<String> delete(@RequestParam("id") Long id) {

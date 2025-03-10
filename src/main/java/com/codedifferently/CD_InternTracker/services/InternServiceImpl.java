@@ -27,12 +27,12 @@ public class InternServiceImpl implements InternService {
     }
 
     private void loadData() {
-        interns = (List<Intern>) JsonDataStorage.loadData().get("interns");
+        interns = (List<Intern>) JsonDataStorage.loadInterns();
         logger.info("Interns data loaded successfully.");
     }
 
     private void saveData() {
-        JsonDataStorage.saveData(interns, null);
+        JsonDataStorage.saveInterns(this.interns);
         logger.info("Interns data saved successfully.");
     }
 
@@ -63,12 +63,12 @@ public class InternServiceImpl implements InternService {
         return intern;
     }
 
-    @Override
-    public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
-        // Implement CSV processing and validation logic here
-        logger.info("Processing CSV file to create interns.");
-        return null;
-    }
+//    @Override
+//    public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
+//        // Implement CSV processing and validation logic here
+//        logger.info("Processing CSV file to create interns.");
+//        return null;
+//    }
 
     @Override
     public List<Intern> getAll() {

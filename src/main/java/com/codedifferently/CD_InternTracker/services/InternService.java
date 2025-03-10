@@ -17,45 +17,37 @@ import java.util.List;
 public interface InternService {
 
     // Create a new Intern with validation
-    default Intern create(Intern intern) {
-        // Validate intern fields before saving
-        if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
-            throw new IllegalArgumentException("Invalid Intern data: Please check the email, name, or ID fields.");
-        }
+    Intern create(Intern intern);
 
-        // Proceed with the save operation
-        return saveIntern(intern);
-    }
-
-    // Create multiple Interns from a CSV file
-    default List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
-        List<Intern> parsedInterns = new ArrayList<>();
-
-        try (CSVReader reader = new CSVReader(new InputStreamReader(csvFile.getInputStream()))) {
-            String[] nextLine;
-            while ((nextLine = reader.readNext()) != null) {
-                String name = nextLine[0];
-                String email = nextLine[1];
-                Long id = Long.parseLong(nextLine[2]);
-
-                // Create a new intern object and add it to the list
-                Intern intern = new Intern(name, email, id);
-                parsedInterns.add(intern);
-            }
-        } catch (IOException e) {
-            throw new IOException("Error parsing CSV file", e);
-        }
-
-        // Validate all intern entries (after parsing CSV)
-        for (Intern intern : parsedInterns) {
-            if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
-                throw new IllegalArgumentException("Invalid Intern data in CSV: One or more fields are incorrect.");
-            }
-        }
-
-        // Proceed with saving the list of interns
-        return saveInterns(parsedInterns);
-    }
+//    // Create multiple Interns from a CSV file
+//    public List<Intern> createByCSV(MultipartFile csvFile) throws Exception {
+//        List<Intern> parsedInterns = new ArrayList<>();
+//
+//        try (CSVReader reader = new CSVReader(new InputStreamReader(csvFile.getInputStream()))) {
+//            String[] nextLine;
+//            while ((nextLine = reader.readNext()) != null) {
+//                String name = nextLine[0];
+//                String email = nextLine[1];
+//                Long id = Long.parseLong(nextLine[2]);
+//
+//                // Create a new intern object and add it to the list
+//                Intern intern = new Intern(name, email, id);
+//                parsedInterns.add(intern);
+//            }
+//        } catch (IOException e) {
+//            throw new IOException("Error parsing CSV file", e);
+//        }
+//
+//        // Validate all intern entries (after parsing CSV)
+//        for (Intern intern : parsedInterns) {
+//            if (!ValidationUtils.areRequiredFieldsValid(intern.getEmail(), intern.getName(), intern.getId())) {
+//                throw new IllegalArgumentException("Invalid Intern data in CSV: One or more fields are incorrect.");
+//            }
+//        }
+//
+//        // Proceed with saving the list of interns
+//        return saveInterns(parsedInterns);
+//    }
 
     // Get all Interns
     List<Intern> getAll();

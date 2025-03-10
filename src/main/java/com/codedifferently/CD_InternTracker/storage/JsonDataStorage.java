@@ -2,70 +2,88 @@ package com.codedifferently.CD_InternTracker.storage;
 
 import com.codedifferently.CD_InternTracker.models.Intern;
 import com.codedifferently.CD_InternTracker.models.TA;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 
 public class JsonDataStorage {
-    private static final String FILE_PATH = "storage/JsonDataStorage.json"; 
+
+    private static final String TA_FILE_PATH = "storage/tas.json";
+    private static final String INTERN_FILE_PATH = "storage/interns.json";
+
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     static {
-        ensureStorageExists();
+        ensureFileExists(TA_FILE_PATH);
+        ensureFileExists(INTERN_FILE_PATH);
     }
 
-    private static void ensureStorageExists() {
+    private static void ensureFileExists(String path) {
         try {
-            File file = new File(FILE_PATH);
+            File file = new File(path);
             File folder = file.getParentFile();
-
             if (!folder.exists()) {
                 folder.mkdirs();
             }
-
             if (!file.exists()) {
-                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, getDefaultData());
+                objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, new ArrayList<>());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static Map<String, List<?>> loadData() {
+
+    public static List<TA> loadTAs() {
         try {
-            File file = new File(FILE_PATH);
-            return objectMapper.readValue(file, new TypeReference<Map<String, List<?>>>() {});
+            return objectMapper.readValue(
+                    new File(TA_FILE_PATH),
+                    new TypeReference<List<TA>>() {}
+            );
         } catch (IOException e) {
             e.printStackTrace();
-            return getDefaultData();
+            return new ArrayList<>();
         }
     }
 
-    public static void saveData(List<Intern> interns, List<TA> tas) {
-        Map<String, List<?>> data = loadData();
 
-        // Check that lists are not null
-        data.put("interns", interns != null ? interns : new ArrayList<>());
-        data.put("TAs", tas != null ? tas : new ArrayList<>());
-
-
+    public static void saveTAs(List<TA> tas) {
+        if (tas == null) {
+            tas = new ArrayList<>();
+        }
         try {
-            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), data);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(TA_FILE_PATH), tas);
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private static Map<String, List<?>> getDefaultData() {
-        Map<String, List<?>> defaultData = new HashMap<>();
-        defaultData.put("interns", new ArrayList<>());
-        defaultData.put("TAs", new ArrayList<>());
-        return defaultData;
+
+    public static List<Intern> loadInterns() {
+        try {
+            return objectMapper.readValue(
+                    new File(INTERN_FILE_PATH),
+                    new TypeReference<List<Intern>>() {}
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+
+    public static void saveInterns(List<Intern> interns) {
+        if (interns == null) {
+            interns = new ArrayList<>();
+        }
+        try {
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(INTERN_FILE_PATH), interns);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
