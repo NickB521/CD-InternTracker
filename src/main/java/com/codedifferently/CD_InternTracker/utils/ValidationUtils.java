@@ -24,6 +24,6 @@ public class ValidationUtils {
         if (intern == null) {
             return false;
         }
-        return false;
+        return true;
     }
 }
