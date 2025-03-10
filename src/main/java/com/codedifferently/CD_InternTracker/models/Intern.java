@@ -5,18 +5,27 @@ import java.util.List;
 public class Intern {
 
     private Long id;
+
+
+
     private String name;
     private String email;
     private String level;
     private List<DailySchedule> weeklySchedule;
     private String internNotes;
-    private List<String> attendance;
+    private List<Day> attendance;
 
-    // Constructor
-    public Intern(String name, String email, Long id) {
+    public Intern(String name, String email, String level, List<DailySchedule> weeklySchedule, String internNotes, List<Day> attendance) {
         this.name = name;
         this.email = email;
-        this.id = id;
+        this.level = level;
+        this.weeklySchedule = weeklySchedule;
+        this.internNotes = internNotes;
+        this.attendance = attendance;
+    }
+
+    public Intern () {
+
     }
 
     // Getters and Setters
@@ -68,11 +77,11 @@ public class Intern {
         this.internNotes = internNotes;
     }
 
-    public List<String> getAttendance() {
+    public List<Day> getAttendance() {
         return attendance;
     }
 
-    public void setAttendance(List<String> attendance) {
+    public void setAttendance(List<Day> attendance) {
         this.attendance = attendance;
     }
 }
