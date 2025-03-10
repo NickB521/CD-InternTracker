@@ -4,42 +4,31 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.util.List;
 
-@Entity
-@Table(name = "app_user")
-@NoArgsConstructor
-@AllArgsConstructor
-@Data
+
 public class TA {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
- API-endpoint-to-fetch-TA-Weekly-schedules
     private String name;
 
-dev
     private String email;
-    private String name;
     private String subject;
     private String password;
     private String phoneNumber;
     private boolean isAdmin;
     private boolean isTA;
 
- API-endpoint-to-fetch-TA-Weekly-schedules
-    // One-to-many relationship with WeeklySchedule
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "ta_id")  // Foreign key in WeeklySchedule table
+
+
     private List<WeeklySchedule> weeklySchedule;
 
-    // Constructor
-    public TA(Long id, String name, String email, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
-        this.id = id;
-        this.name = name;
+
+
+
+
 
     public TA(String email, String name, String subject, String password, String phoneNumber, boolean isAdmin, boolean isTA) {
-dev
         this.email = email;
         this.name = name;
         this.subject = subject;
@@ -49,11 +38,9 @@ dev
         this.isTA = isTA;
     }
 
- API-endpoint-to-fetch-TA-Weekly-schedules
 
     // Getter and Setter Methods for each property
 
- dev
     public Long getId() {
         return id;
     }
@@ -113,9 +100,14 @@ dev
     public void setTA(boolean TA) {
         isTA = TA;
     }
- API-endpoint-to-fetch-TA-Weekly-schedules
+    public List<WeeklySchedule> getWeeklySchedule() {
+        return weeklySchedule;
+    }
 
+    public void setWeeklySchedule(List<WeeklySchedule> weeklySchedule) {
+        this.weeklySchedule = weeklySchedule;
+    }
 }
 
-}
-dev
+
+

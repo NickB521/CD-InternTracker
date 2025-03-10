@@ -48,7 +48,6 @@ public class JsonDataStorage {
     }
 
     public static void saveData(List<Intern> interns, List<TA> tas) {
- API-endpoint-to-fetch-TA-Weekly-schedules
         Map<String, List<?>> data = loadData();
 
         // Check that lists are not null
@@ -56,9 +55,7 @@ public class JsonDataStorage {
         data.put("TAs", tas != null ? tas : new ArrayList<>());
 
 
- dev
         try {
-            Map<String, List<?>> data = Map.of("interns", interns, "TAs", tas);
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(FILE_PATH), data);
         } catch (IOException e) {
             e.printStackTrace();
